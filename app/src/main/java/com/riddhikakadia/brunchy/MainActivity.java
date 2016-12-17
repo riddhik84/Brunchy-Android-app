@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity
                                     //TODO change with app logo
                                     .setLogo(R.drawable.chef128)
                                     .setIsSmartLockEnabled(false)
+                                    .setTheme(R.style.LoginTheme)
                                     .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
                                             new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                                     .build(),
@@ -182,17 +183,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_categories) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_snap_n_cook) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_favorites) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_settings) {
+
+        } else if (id == R.id.nav_about_us) {
 
         }
 
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity
         if (mPhotoUrl != null) {
             Picasso.with(getApplicationContext())
                     .load(mPhotoUrl)
-                    .resize(110, 110)
+                    .resize(150, 150)
                     .centerCrop()
                     .into(user_account_photo);
         }
