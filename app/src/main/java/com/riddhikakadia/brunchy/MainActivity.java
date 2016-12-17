@@ -1,25 +1,29 @@
 package com.riddhikakadia.brunchy;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 
@@ -35,9 +39,14 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
-    public static String mUsername;
-    public static String mEmail;
-    public static String mPhotoUrl;
+    View navigationHeader;
+    ImageView user_account_photo;
+    TextView user_account_name;
+    TextView user_account_email;
+
+    String mUsername;
+    String mEmail;
+    Uri mPhotoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,28 +73,47 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationHeader = navigationView.getHeaderView(0);
+        user_account_photo = (ImageView) navigationHeader.findViewById(R.id.user_account_photo);
+        user_account_name = (TextView) navigationHeader.findViewById(R.id.user_account_name);
+        user_account_email = (TextView) navigationHeader.findViewById(R.id.user_account_email);
+
         mUsername = ANONYMOUS;
         mEmail = "";
-        mPhotoUrl = "";
+        mPhotoUrl = null;
+
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                String fbUser = getString(R.string.new_user);
+                String fbEmail = "";
+                Uri fbUserPhoto = null;
                 FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                    Log.d(LOG_TAG, "Firebase User: " + mFirebaseAuth.getCurrentUser().toString());
                     //User logged in
-                    Toast.makeText(getApplicationContext(), getString(R.string.welcome_toast), Toast.LENGTH_SHORT).show();
-                    mUsername = firebaseUser.getDisplayName().toString();
-                    mEmail = firebaseUser.getEmail().toString();
-                    mPhotoUrl = firebaseUser.getPhotoUrl().toString();
+                    Log.d(LOG_TAG, "RK Firebase User: " + mFirebaseAuth.getCurrentUser().toString());
+                    Log.d(LOG_TAG, "RK firebase User id " + firebaseUser.getUid().toString());
 
-                    Log.d(LOG_TAG, "Firebase mUsername " + mUsername + " mEmail " + mEmail);
-                    Log.d(LOG_TAG, "Firebase photo url " + mPhotoUrl);
+                    Toast.makeText(getApplicationContext(), getString(R.string.welcome_toast), Toast.LENGTH_SHORT).show();
+                    //Update drawer header with signed in user
+                    if (firebaseUser.getDisplayName() != null) {
+                        fbUser = firebaseUser.getDisplayName().toString();
+                    }
+                    if (firebaseUser.getEmail() != null) {
+                        fbEmail = firebaseUser.getEmail().toString();
+                    }
+                    if (firebaseUser.getPhotoUrl() != null) {
+                        fbUserPhoto = firebaseUser.getPhotoUrl();
+                    }
+                    onSignedInInitialize(fbUserPhoto, fbUser, fbEmail);
+
                 } else {
-                    //User not logged in - got to login screen
+                    //User not logged in - go to login screen
+                    onSignedOutCleanup();
+
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -185,5 +213,29 @@ public class MainActivity extends AppCompatActivity
         if (mAuthStateListener != null) {
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
+    }
+
+    private void onSignedInInitialize(Uri photoUrl, String username, String useremail) {
+        mPhotoUrl = photoUrl;
+        mUsername = username;
+        mEmail = useremail;
+
+        Log.d(LOG_TAG, "RK onSignedInInitialize() mUsername " + mUsername + " mEmail " + mEmail + " mURL " + mPhotoUrl);
+
+        //Update navigation drawer header
+        if (mPhotoUrl != null) {
+            Picasso.with(getApplicationContext())
+                    .load(mPhotoUrl)
+                    .resize(150, 150)
+                    .centerCrop()
+                    .into(user_account_photo);
+        }
+        user_account_name.setText(mUsername);
+        user_account_email.setText(mEmail);
+
+    }
+
+    private void onSignedOutCleanup() {
+
     }
 }
