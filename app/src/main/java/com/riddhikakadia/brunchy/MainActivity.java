@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
                                     //TODO change with app logo
-                                    .setLogo(R.mipmap.ic_launcher)
+                                    .setLogo(R.drawable.chef128)
                                     .setIsSmartLockEnabled(false)
                                     .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
                                             new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity
         if (mPhotoUrl != null) {
             Picasso.with(getApplicationContext())
                     .load(mPhotoUrl)
-                    .resize(150, 150)
+                    .resize(110, 110)
                     .centerCrop()
                     .into(user_account_photo);
         }
