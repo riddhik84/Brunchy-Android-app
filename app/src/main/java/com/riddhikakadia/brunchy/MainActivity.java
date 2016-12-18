@@ -1,5 +1,6 @@
 package com.riddhikakadia.brunchy;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +30,8 @@ import com.squareup.picasso.Picasso;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener,
+        CategoriesFragment.OnFragmentInteractionListener {
 
     public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 111;
@@ -43,6 +45,11 @@ public class MainActivity extends AppCompatActivity
     ImageView user_account_photo;
     TextView user_account_name;
     TextView user_account_email;
+    View mainContentView;
+    FrameLayout fragmentContainer;
+
+    HomeFragment homeFragment;
+    CategoriesFragment categoriesFragment;
 
     String mUsername;
     String mEmail;
@@ -82,6 +89,16 @@ public class MainActivity extends AppCompatActivity
         mEmail = "";
         mPhotoUrl = null;
 
+        mainContentView = findViewById(R.id.content_main);
+        fragmentContainer = (FrameLayout) mainContentView.findViewById(R.id.fragment_container);
+        if (fragmentContainer != null) {
+            Log.d(LOG_TAG, "RK view found");
+        } else {
+            Log.d(LOG_TAG, "RK view not found");
+        }
+        homeFragment = new HomeFragment();
+        categoriesFragment = new CategoriesFragment();
+
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -117,8 +134,7 @@ public class MainActivity extends AppCompatActivity
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
-                                    //TODO change with app logo
-                                    .setLogo(R.drawable.chef128)
+                                    //.setLogo(R.drawable.chef128)
                                     .setIsSmartLockEnabled(false)
                                     .setTheme(R.style.LoginTheme)
                                     .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
@@ -184,9 +200,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-
+            if (fragmentContainer != null)
+                getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), homeFragment).commit();
         } else if (id == R.id.nav_categories) {
-
+            getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), categoriesFragment).commit();
         } else if (id == R.id.nav_snap_n_cook) {
 
         } else if (id == R.id.nav_favorites) {
@@ -237,6 +254,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void onSignedOutCleanup() {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

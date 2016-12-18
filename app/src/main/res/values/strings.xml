@@ -10,8 +10,12 @@
 
     <string name="home">Home</string>
     <string name="categories">Categories</string>
-    <string name="snap_n_cook">Snap 'n' Cook</string>
+    <string name="snap_n_cook">Snap \'n\' Cook</string>
     <string name="favorites">Favorites</string>
     <string name="settings">Settings</string>
     <string name="about_us">About Us</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Home Fragment</string>
+    <string name="hello_categories_fragment">Categories Fragment</string>
 </resources>
