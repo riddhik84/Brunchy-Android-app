@@ -2,6 +2,7 @@ package com.riddhikakadia.brunchy;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.Arrays;
 
@@ -91,16 +93,17 @@ public class MainActivity extends AppCompatActivity
 
         mainContentView = findViewById(R.id.content_main);
         fragmentContainer = (FrameLayout) mainContentView.findViewById(R.id.fragment_container);
-        if (fragmentContainer != null) {
-            Log.d(LOG_TAG, "RK view found");
-        } else {
-            Log.d(LOG_TAG, "RK view not found");
-        }
         homeFragment = new HomeFragment();
         categoriesFragment = new CategoriesFragment();
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        if (fragmentContainer != null) {
+            Log.d(LOG_TAG, "RK view found");
+            getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), homeFragment).commit();
+        } else {
+            Log.d(LOG_TAG, "RK view not found");
+        }
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
             @Override
@@ -250,7 +253,6 @@ public class MainActivity extends AppCompatActivity
         }
         user_account_name.setText(mUsername);
         user_account_email.setText(mEmail);
-
     }
 
     private void onSignedOutCleanup() {
