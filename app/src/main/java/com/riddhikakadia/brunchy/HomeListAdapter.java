@@ -2,7 +2,10 @@ package com.riddhikakadia.brunchy;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ public class HomeListAdapter extends ArrayAdapter<String> {
     private Activity context;
     private String[] recipeList;
     private Integer[] recipeImages;
+    int default_color = 0x000000;
 
     public HomeListAdapter(Activity context, String[] recipeList, Integer[] recipeImages) {
         super(context, R.layout.home_list_item, recipeList);
@@ -37,6 +41,12 @@ public class HomeListAdapter extends ArrayAdapter<String> {
         ImageView recipeCategoryImage = (ImageView) rowView.findViewById(R.id.home_list_item_image);
         TextView recipeCategory = (TextView) rowView.findViewById(R.id.home_list_item_text);
 
+//        Bitmap imageBitmap = BitmapFactory.decodeResource(context.getResources(), recipeImages[position]);
+//        if (imageBitmap != null && !imageBitmap.isRecycled()) {
+//            Palette palette = Palette.from(imageBitmap).generate();
+//            int vibrant = palette.getVibrantColor(default_color);
+//            recipeCategory.setTextColor(vibrant);
+//        }
         Picasso.with(context)
                 .load(recipeImages[position])
                 .resize(1200, 800)

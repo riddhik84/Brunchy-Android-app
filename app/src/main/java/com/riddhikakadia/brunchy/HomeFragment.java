@@ -74,6 +74,7 @@ public class HomeFragment extends Fragment {
         homeListAdapter = new HomeListAdapter(getActivity(), recipeList, recipeImages);
         homeListView.setAdapter(homeListAdapter);
 
+
         return rootView;
     }
 
