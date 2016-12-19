@@ -1,6 +1,7 @@
 package com.riddhikakadia.brunchy;
 
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ui.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     String mUsername;
     String mEmail;
     Uri mPhotoUrl;
+    View mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +164,9 @@ public class MainActivity extends AppCompatActivity
                 Log.d(LOG_TAG, "RK resultCode RESULT_CANCELED sign in");
                 Toast.makeText(this, "Sign In Canceled!", Toast.LENGTH_SHORT).show();
                 finish();
+            } else if (resultCode == ResultCodes.RESULT_NO_NETWORK) {
+                showSnackbar();
+                return;
             }
         }
     }
@@ -211,6 +218,23 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_favorites) {
 
+        } else if (id == R.id.nav_logout) {
+            //User sign out
+            AlertDialog.Builder logoutDialog = new AlertDialog.Builder(this);
+            logoutDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    signout();
+                }
+            })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).create();
+            logoutDialog.setTitle("Are you sure you want to logout?");
+            logoutDialog.show();
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_about_us) {
@@ -262,5 +286,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void showSnackbar() {
+        if (fragmentContainer != null) {
+            Snackbar.make(fragmentContainer, "No Internet connection...", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    public void signout() {
+        AuthUI.getInstance().signOut(this);
     }
 }

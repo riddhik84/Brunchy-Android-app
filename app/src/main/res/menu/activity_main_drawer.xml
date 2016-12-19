@@ -25,6 +25,10 @@
         android:icon="@drawable/settings_icon"
         android:title="@string/settings" />
     <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/logout_icon"
+        android:title="@string/logout_button" />
+    <item
         android:id="@+id/nav_about_us"
         android:icon="@drawable/about_us_icon"
         android:title="@string/about_us" />

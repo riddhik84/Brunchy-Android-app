@@ -50,6 +50,11 @@ public class HomeListAdapter extends ArrayAdapter<String> {
         Picasso.with(context)
                 .load(recipeImages[position])
                 .resize(1200, 800)
+                //.resize(1200, 0)
+                //.noFade()
+                //.skipMemoryCache()
+                //.placeholder(R.drawable.placeholder)
+                .placeholder(recipeImages[position])
                 .into(recipeCategoryImage);
         recipeCategory.setText(recipeList[position]);
         return rowView;
