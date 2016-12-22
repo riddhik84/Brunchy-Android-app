@@ -35,8 +35,7 @@ import com.squareup.picasso.Transformation;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener,
-        CategoriesFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener {
 
     public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 111;
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity
     FrameLayout fragmentContainer;
 
     HomeFragment homeFragment;
-    CategoriesFragment categoriesFragment;
 
     String mUsername;
     String mEmail;
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity
         mainContentView = findViewById(R.id.content_main);
         fragmentContainer = (FrameLayout) mainContentView.findViewById(R.id.fragment_container);
         homeFragment = new HomeFragment();
-        categoriesFragment = new CategoriesFragment();
 
         if (fragmentContainer != null) {
             Log.d(LOG_TAG, "RK view found");
@@ -213,7 +210,8 @@ public class MainActivity extends AppCompatActivity
             if (fragmentContainer != null)
                 getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), homeFragment).commit();
         } else if (id == R.id.nav_categories) {
-            getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), categoriesFragment).commit();
+            Intent categories = new Intent(this, CategoriesActivity.class);
+            startActivity(categories);
         } else if (id == R.id.nav_snap_n_cook) {
 
         } else if (id == R.id.nav_favorites) {

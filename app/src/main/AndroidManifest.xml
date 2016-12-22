@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.riddhikakadia.brunchy">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/chef64"
@@ -17,6 +19,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".CategoriesActivity"
+            android:label="@string/title_activity_categories"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.riddhikakadia.brunchy.MainActivity" />
+        </activity>
+        <activity
+            android:name=".RecipesListActivity"
+            android:label="@string/title_activity_recipes_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.riddhikakadia.brunchy.MainActivity" />
         </activity>
     </application>
 

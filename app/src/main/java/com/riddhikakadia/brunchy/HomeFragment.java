@@ -1,16 +1,22 @@
 package com.riddhikakadia.brunchy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
 public class HomeFragment extends Fragment {
+
+    final String LOG_TAG = HomeFragment.class.getSimpleName();
+    final String RECIPE_ID = "RECIPE_ID";
 
     private OnFragmentInteractionListener mListener;
 
@@ -18,7 +24,7 @@ public class HomeFragment extends Fragment {
     HomeListAdapter homeListAdapter;
 
     String[] recipeList = new String[]{
-            "Healthy Breakfast",
+            "Breakfast",
             "Cookies",
             "Soup",
             "Sandwich",
@@ -74,6 +80,15 @@ public class HomeFragment extends Fragment {
         homeListAdapter = new HomeListAdapter(getActivity(), recipeList, recipeImages);
         homeListView.setAdapter(homeListAdapter);
 
+        homeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(getContext(), RecipesListActivity.class);
+                Log.d(LOG_TAG, RECIPE_ID + " " + position);
+                intent.putExtra(RECIPE_ID, position);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

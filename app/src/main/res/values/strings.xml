@@ -19,4 +19,8 @@
     <string name="hello_blank_fragment">Home Fragment</string>
     <string name="hello_categories_fragment">Categories Fragment</string>
     <string name="logout_button">Logout</string>
+    <string name="health">Health</string>
+    <string name="diet">Diet</string>
+    <string name="title_activity_categories">CategoriesActivity</string>
+    <string name="title_activity_recipes_list">RecipesListActivity</string>
 </resources>
