@@ -1,4 +1,4 @@
-package com.riddhikakadia.brunchy;
+package com.riddhikakadia.brunchy.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.riddhikakadia.brunchy.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

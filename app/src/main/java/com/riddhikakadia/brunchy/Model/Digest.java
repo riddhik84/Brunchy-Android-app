@@ -1,5 +1,5 @@
 
-package com.riddhikakadia.brunchy.Model;
+package com.riddhikakadia.brunchy.model;
 
 import java.util.List;
 

@@ -1,10 +1,8 @@
-package com.riddhikakadia.brunchy;
+package com.riddhikakadia.brunchy.ui;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +12,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.riddhikakadia.brunchy.API.RecipeAPI;
-import com.riddhikakadia.brunchy.Model.BaseModel;
-import com.riddhikakadia.brunchy.Model.Hit;
-import com.riddhikakadia.brunchy.Model.Recipe;
+import com.riddhikakadia.brunchy.model.BaseModel;
+import com.riddhikakadia.brunchy.model.Hit;
+import com.riddhikakadia.brunchy.model.Recipe;
+import com.riddhikakadia.brunchy.R;
+import com.riddhikakadia.brunchy.util.RecipeLabels;
+import com.riddhikakadia.brunchy.adapter.RecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

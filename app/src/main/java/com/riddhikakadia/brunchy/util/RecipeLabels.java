@@ -1,4 +1,4 @@
-package com.riddhikakadia.brunchy;
+package com.riddhikakadia.brunchy.util;
 
 /**
  * Created by RKs on 12/21/2016.
@@ -8,19 +8,21 @@ public class RecipeLabels {
 
     final static String[] homeRecipeLabels = {
             "Breakfast",
-            "Cookies",
-            "Soup",
             "Sandwich",
+            "Soup",
+            "Cookies",
             "Juices",
             "Barbecue",
+            "Bread",
             "Rice",
             "Salad",
-            "Vegetarian",
             "Pasta",
             "Pizza",
             "Stew",
             "Cake",
-            "Smoothie"
+            "Burger",
+            "Smoothie",
+            "Pie"
     };
 
     void RecipeLabels() {

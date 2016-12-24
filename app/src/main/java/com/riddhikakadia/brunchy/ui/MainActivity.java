@@ -1,9 +1,7 @@
-package com.riddhikakadia.brunchy;
+package com.riddhikakadia.brunchy.ui;
 
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,8 +27,9 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ui.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.riddhikakadia.brunchy.fragments.HomeFragment;
+import com.riddhikakadia.brunchy.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.Arrays;
 
@@ -236,7 +235,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_about_us) {
-
+            Intent aboutUsIntent = new Intent(this, AboutUsActivity.class);
+            startActivity(aboutUsIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,4 +1,4 @@
-package com.riddhikakadia.brunchy;
+package com.riddhikakadia.brunchy.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
+
+import com.riddhikakadia.brunchy.adapter.HomeListAdapter;
+import com.riddhikakadia.brunchy.R;
+import com.riddhikakadia.brunchy.ui.RecipesListActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -25,36 +28,40 @@ public class HomeFragment extends Fragment {
 
     String[] recipeList = new String[]{
             "Breakfast",
-            "Cookies",
-            "Soup",
             "Sandwich",
+            "Soup",
+            "Cookies",
             "Juices",
             "Barbecue",
+            "Bread",
             "Rice",
             "Salad",
-            "Vegetarian",
             "Pasta",
             "Pizza",
             "Stew",
             "Cake",
-            "Smoothie"
+            "Burger",
+            "Smoothie",
+            "Pie"
     };
 
     Integer[] recipeImages = new Integer[]{
             R.drawable.breakfast,
-            R.drawable.cookies,
-            R.drawable.soup,
             R.drawable.sandwich,
+            R.drawable.soup,
+            R.drawable.cookies,
             R.drawable.juice,
             R.drawable.barbecue,
+            R.drawable.bread,
             R.drawable.rice,
             R.drawable.salad,
-            R.drawable.vegetarian,
             R.drawable.pasta,
             R.drawable.pizza,
             R.drawable.stew,
             R.drawable.cake,
-            R.drawable.smoothie
+            R.drawable.burger,
+            R.drawable.smoothie,
+            R.drawable.pie
     };
 
     public HomeFragment() {

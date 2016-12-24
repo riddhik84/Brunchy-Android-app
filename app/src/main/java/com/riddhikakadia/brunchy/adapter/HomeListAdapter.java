@@ -1,4 +1,4 @@
-package com.riddhikakadia.brunchy;
+package com.riddhikakadia.brunchy.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.riddhikakadia.brunchy.R;
 import com.squareup.picasso.Picasso;
 
 /**

@@ -1,4 +1,4 @@
-package com.riddhikakadia.brunchy;
+package com.riddhikakadia.brunchy.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.riddhikakadia.brunchy.R;
 
 /**
  * Created by rkakadia on 6/22/2016.

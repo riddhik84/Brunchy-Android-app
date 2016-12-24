@@ -1,5 +1,5 @@
 
-package com.riddhikakadia.brunchy.Model;
+package com.riddhikakadia.brunchy.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
