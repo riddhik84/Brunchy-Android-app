@@ -15,54 +15,17 @@ import android.widget.ListView;
 import com.riddhikakadia.brunchy.adapter.HomeListAdapter;
 import com.riddhikakadia.brunchy.R;
 import com.riddhikakadia.brunchy.ui.RecipesListActivity;
+import com.riddhikakadia.brunchy.util.RecipesInfo;
 
 public class HomeFragment extends Fragment {
 
     final String LOG_TAG = HomeFragment.class.getSimpleName();
-    final String RECIPE_ID = "RECIPE_ID";
+    final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
 
     private OnFragmentInteractionListener mListener;
 
     ListView homeListView;
     HomeListAdapter homeListAdapter;
-
-    String[] recipeList = new String[]{
-            "Breakfast",
-            "Sandwich",
-            "Soup",
-            "Cookies",
-            "Juices",
-            "Barbecue",
-            "Bread",
-            "Rice",
-            "Salad",
-            "Pasta",
-            "Pizza",
-            "Stew",
-            "Cake",
-            "Burger",
-            "Smoothie",
-            "Pie"
-    };
-
-    Integer[] recipeImages = new Integer[]{
-            R.drawable.breakfast,
-            R.drawable.sandwich,
-            R.drawable.soup,
-            R.drawable.cookies,
-            R.drawable.juice,
-            R.drawable.barbecue,
-            R.drawable.bread,
-            R.drawable.rice,
-            R.drawable.salad,
-            R.drawable.pasta,
-            R.drawable.pizza,
-            R.drawable.stew,
-            R.drawable.cake,
-            R.drawable.burger,
-            R.drawable.smoothie,
-            R.drawable.pie
-    };
 
     public HomeFragment() {
         // Required empty public constructor
@@ -84,15 +47,15 @@ public class HomeFragment extends Fragment {
         homeListView = (ListView) rootView.findViewById(R.id.home_list_view);
         homeListView.setDivider(null);
         homeListView.setDividerHeight(0);
-        homeListAdapter = new HomeListAdapter(getActivity(), recipeList, recipeImages);
+        homeListAdapter = new HomeListAdapter(getActivity(), RecipesInfo.homeRecipeLabels, RecipesInfo.homeRecipeImages);
         homeListView.setAdapter(homeListAdapter);
 
         homeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(getContext(), RecipesListActivity.class);
-                Log.d(LOG_TAG, RECIPE_ID + " " + position);
-                intent.putExtra(RECIPE_ID, position);
+                Log.d(LOG_TAG, RECIPE_TO_SEARCH + " " + RecipesInfo.homeRecipeLabels[position]);
+                intent.putExtra(RECIPE_TO_SEARCH, RecipesInfo.homeRecipeLabels[position]);
                 startActivity(intent);
             }
         });

@@ -1,7 +1,9 @@
 package com.riddhikakadia.brunchy.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,11 +29,13 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ui.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.riddhikakadia.brunchy.fragments.HomeFragment;
 import com.riddhikakadia.brunchy.R;
+import com.riddhikakadia.brunchy.fragments.HomeFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
+
+import static com.riddhikakadia.brunchy.util.RecipesInfo.RECIPE_SETTINGS;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener {
@@ -69,8 +73,10 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent snapNCookIntent = new Intent(getApplicationContext(), SnapNCookActivity.class);
+                startActivity(snapNCookIntent);
             }
         });
 
@@ -269,7 +275,7 @@ public class MainActivity extends AppCompatActivity
         if (mPhotoUrl != null) {
             Picasso.with(getApplicationContext())
                     .load(mPhotoUrl)
-                    .resize(150, 150)
+                    .resize(170, 170)
                     .centerCrop()
                     .into(user_account_photo);
         }

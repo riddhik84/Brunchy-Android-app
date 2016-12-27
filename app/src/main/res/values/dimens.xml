@@ -8,4 +8,12 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="recyclerview_padding">8dp</dimen>
+    <dimen name="detail_appbar_layout_height">220dp</dimen>
+    <dimen name="expanded_title_margin_bottom">16dp</dimen>
+    <dimen name="expanded_toolbar_title_padding_left">16dp</dimen>
+    <dimen name="detail_screen_toolbar_contentInsetStart">50dp</dimen>
+    <dimen name="article_byline_padding_left">16dp</dimen>
+    <dimen name="article_byline_padding_right">16dp</dimen>
+    <dimen name="article_byline_text_size">14sp</dimen>
+
 </resources>

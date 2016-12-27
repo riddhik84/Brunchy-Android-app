@@ -1,5 +1,6 @@
 package com.riddhikakadia.brunchy.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.riddhikakadia.brunchy.R;
+import com.riddhikakadia.brunchy.ui.RecipeDetailActivity;
+import com.riddhikakadia.brunchy.ui.RecipesListActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -17,20 +20,23 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     final String LOG_TAG = RecyclerAdapter.class.getSimpleName();
+    final String RECIPE_ID = "RECIPE_ID";
 
     int lastPosition = -1;
 
     //Context context;
     LayoutInflater inflater;
     List<String> recipe_names;
-    List<String> recipe_URLs;
+    List<String> recipe_image_URLs;
+    List<String> recipe_URIs;
 
-    public RecyclerAdapter(List<String> recipes, List<String> recipeURLs) {
+    public RecyclerAdapter(List<String> recipeNames, List<String> recipeImageURLs, List<String> recipeURIs) {
         Log.d(LOG_TAG, "RecyclerAdapter() ");
 
         //this.context = context;
-        recipe_names = recipes;
-        recipe_URLs = recipeURLs;
+        recipe_names = recipeNames;
+        recipe_image_URLs = recipeImageURLs;
+        recipe_URIs = recipeURIs;
         //inflater = LayoutInflater.from(context);
     }
 
@@ -45,11 +51,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        Log.d(LOG_TAG, "Recipe Name: " + recipe_names.get(position) + " Recipe URL: " + recipe_URLs.get(position));
+        Log.d(LOG_TAG, "Recipe Name: " + recipe_names.get(position) + " Recipe Image URLs : " + recipe_image_URLs.get(position)
+                + " Recipe ID: " + recipe_URIs.get(position));
 
         holder.recipe_name.setText(recipe_names.get(position));
         Picasso.with(inflater.getContext())
-                .load(recipe_URLs.get(position))
+                .load(recipe_image_URLs.get(position))
                 .noFade()
                 .resize(500, 600)
                 .centerCrop()
@@ -74,10 +81,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
             int position = vh.getPosition();
 
             Toast.makeText(inflater.getContext(), "This is position " + position, Toast.LENGTH_LONG).show();
-            //Intent intent = new Intent(context, MovieDetailActivity.class);
-            //intent.putExtra("MovieImage", movie_images[position]);
-            //context.startActivity(intent);
-
+            Intent intent = new Intent(inflater.getContext(), RecipeDetailActivity.class);
+            intent.putExtra(RECIPE_ID, recipe_URIs.get(position));
+            Log.d(LOG_TAG, "RK*** Recipe uri: " + recipe_URIs.get(position));
+            inflater.getContext().startActivity(intent);
         }
     };
 
