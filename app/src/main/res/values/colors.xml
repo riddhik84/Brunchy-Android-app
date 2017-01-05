@@ -14,6 +14,6 @@
 
     <color name="colorPrimary_">#795548</color>
     <color name="colorPrimaryDark_">#4E342E</color>
-    <color name="colorPrimaryLight_">#A1887F</color>
+    <color name="colorBrown_300">#A1887F</color>
 
 </resources>

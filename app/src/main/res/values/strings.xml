@@ -16,8 +16,8 @@
     <string name="about_us">About Us</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Home Fragment</string>
-    <string name="hello_categories_fragment">Categories Fragment</string>
+    <string name="home_fragment">Home Fragment</string>
+    <string name="categories_fragment">Categories Fragment</string>
     <string name="logout_button">Logout</string>
     <string name="health">Health</string>
     <string name="diet">Diet</string>
@@ -34,6 +34,9 @@
     <string name="action_share">Share</string>
 
     <string name="veg_switch">VEG</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Strings related to Settings -->
 

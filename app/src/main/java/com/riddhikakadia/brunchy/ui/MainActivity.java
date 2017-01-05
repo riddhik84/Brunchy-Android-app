@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 111;
+    final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     ImageView user_account_photo;
     TextView user_account_name;
     TextView user_account_email;
+    SearchView recipe_search_view;
     View mainContentView;
     FrameLayout fragmentContainer;
 
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        recipe_search_view = (SearchView) findViewById(R.id.recipe_search_view);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +157,25 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
+
+        recipe_search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() > 1) {
+                    Intent intent = new Intent(MainActivity.this, RecipesListActivity.class);
+                    intent.putExtra(RECIPE_TO_SEARCH, query);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Input search query", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     @Override

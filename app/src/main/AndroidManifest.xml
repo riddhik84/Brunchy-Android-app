@@ -49,9 +49,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.riddhikakadia.brunchy.ui.MainActivity" />
         </activity>
-        <activity android:name=".ui.SettingsActivity"></activity>
-        <activity android:name=".ui.SnapNCookActivity"></activity>
-        <activity android:name=".ui.RecipeDetailActivity"></activity>
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.SnapNCookActivity" />
+        <activity android:name=".ui.RecipeDetailActivity" />
+        <activity android:name=".ui.WebViewActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.riddhikakadia.brunchy.ui.RecipeDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

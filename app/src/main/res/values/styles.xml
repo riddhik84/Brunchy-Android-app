@@ -27,4 +27,29 @@
         <item name="colorAccent">@color/colorGreen_400</item>
     </style>
 
+    <style name="AppThemeToolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="background">@color/colorPrimary</item>
+        <item name="popupTheme">@style/Theme.AppCompat.Light</item>
+    </style>
+
+    <style name="ExpandedTitleTextAppearance" parent="@style/AppThemeToolbar">
+        <item name="android:textSize">@dimen/recipe_detail_header_textsize</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">@dimen/detail_card_layout_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/detail_card_layout_margin_right</item>
+        <item name="android:shadowColor">#000</item>
+        <item name="android:shadowDx">5</item>
+        <item name="android:shadowDy">5</item>
+        <item name="android:shadowRadius">20</item>
+    </style>
+
+    <style name="CollapsedTitleTextAppearance" parent="@style/AppThemeToolbar">
+        <item name="android:textSize">@dimen/article_detail_collapsed_header_textsize</item>
+        <item name="android:shadowColor">#000</item>
+        <item name="android:shadowDx">5</item>
+        <item name="android:shadowDy">5</item>
+        <item name="android:shadowRadius">20</item>
+    </style>
+
 </resources>

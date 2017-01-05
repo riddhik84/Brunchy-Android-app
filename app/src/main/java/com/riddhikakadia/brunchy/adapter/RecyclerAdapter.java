@@ -54,12 +54,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         Log.d(LOG_TAG, "Recipe Name: " + recipe_names.get(position) + " Recipe Image URLs : " + recipe_image_URLs.get(position)
                 + " Recipe ID: " + recipe_URIs.get(position));
 
+        int imageHeight = 0;
+        if (position % 3 == 0) {
+            imageHeight = 600;
+        } else {
+            imageHeight = 700;
+        }
+
         holder.recipe_name.setText(recipe_names.get(position));
         Picasso.with(inflater.getContext())
                 .load(recipe_image_URLs.get(position))
                 .noFade()
-                .resize(500, 600)
+                .resize(500, imageHeight)
                 .centerCrop()
+                //.fit()
                 .into(holder.recipe_photo);
 
         holder.recipe_photo.setOnClickListener(clickListener);
