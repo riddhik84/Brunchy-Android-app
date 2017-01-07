@@ -30,8 +30,10 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ui.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.riddhikakadia.brunchy.R;
 import com.riddhikakadia.brunchy.fragments.HomeFragment;
+import com.riddhikakadia.brunchy.service.NotificationService;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -176,6 +178,20 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
+
+        //For firebase notification
+        if (getIntent().getExtras() != null) {
+            String searchString = "";
+            if (getIntent().getExtras().get("search") != null) {
+                searchString = getIntent().getExtras().get("search").toString();
+                Log.d(LOG_TAG, "RK searchString: " + searchString);
+
+                Intent intent = new Intent(MainActivity.this, RecipesListActivity.class);
+                intent.putExtra(RECIPE_TO_SEARCH, searchString);
+                startActivity(intent);
+            }
+        }
+
     }
 
     @Override
@@ -277,6 +293,10 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+
+        //Get device tocken
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(LOG_TAG, "RK device tocken: " + refreshedToken);
     }
 
     @Override

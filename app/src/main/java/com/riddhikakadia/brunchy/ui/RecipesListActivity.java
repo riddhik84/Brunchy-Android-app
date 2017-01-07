@@ -111,8 +111,8 @@ public class RecipesListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
-            if (intent.getExtras().get("RECIPE_TO_SEARCH") != null) {
-                recipeToSearch = intent.getExtras().get("RECIPE_TO_SEARCH").toString();
+            if (intent.getExtras().get(RECIPE_TO_SEARCH) != null) {
+                recipeToSearch = intent.getExtras().get(RECIPE_TO_SEARCH).toString();
                 Log.d(LOG_TAG, "Recipe to search from search box: " + recipeToSearch);
                 getSupportActionBar().setTitle(recipeToSearch);
             }
