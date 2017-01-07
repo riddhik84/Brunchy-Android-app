@@ -38,6 +38,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         recipe_image_URLs = recipeImageURLs;
         recipe_URIs = recipeURIs;
         //inflater = LayoutInflater.from(context);
+        Log.d(LOG_TAG, "RK recipe_names.size() " + recipe_names.size());
     }
 
     @Override

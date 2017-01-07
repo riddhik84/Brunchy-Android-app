@@ -1,12 +1,10 @@
 package com.riddhikakadia.brunchy.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -17,12 +15,11 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 
 import com.riddhikakadia.brunchy.API.RecipeAPI;
+import com.riddhikakadia.brunchy.R;
+import com.riddhikakadia.brunchy.adapter.RecyclerAdapter;
 import com.riddhikakadia.brunchy.model.BaseModel;
 import com.riddhikakadia.brunchy.model.Hit;
 import com.riddhikakadia.brunchy.model.Recipe;
-import com.riddhikakadia.brunchy.R;
-import com.riddhikakadia.brunchy.util.RecipesInfo;
-import com.riddhikakadia.brunchy.adapter.RecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +30,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.riddhikakadia.brunchy.util.RecipesInfo.RECIPE_SETTINGS;
+import static com.riddhikakadia.brunchy.ui.MainActivity.sharedPreferences;
 
 public class RecipesListActivity extends AppCompatActivity {
 
     final String LOG_TAG = RecipesListActivity.class.getSimpleName();
     final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
-
-    SharedPreferences sharedPreferences;
 
     RecyclerView mRecyclerView;
     RecyclerAdapter mAdapter;
@@ -57,7 +52,7 @@ public class RecipesListActivity extends AppCompatActivity {
     ProgressBar mProgressBar;
 
     String recipeToSearch = "";
-    boolean vegRecipeSearch = true;
+    boolean vegRecipeSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +62,16 @@ public class RecipesListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        sharedPreferences = getSharedPreferences(RECIPE_SETTINGS, Context.MODE_PRIVATE);
-
         vegSwitch = (Switch) findViewById(R.id.veg_switch);
         if (sharedPreferences != null) {
             if (sharedPreferences.getBoolean("VegSearch", true)) {
+                vegRecipeSearch = true;
                 vegSwitch.setChecked(true);
-            } else {
+            } else if (sharedPreferences.getBoolean("VegSearch", false)) {
+                vegRecipeSearch = false;
                 vegSwitch.setChecked(false);
             }
         }
-
         vegSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -86,28 +80,26 @@ public class RecipesListActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("VegSearch", true);
                     editor.commit();
+
                 } else if (vegSwitch.isChecked() == false) {
                     vegRecipeSearch = false;
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("VegSearch", false);
                     editor.commit();
                 }
+
                 searchRecipes();
             }
         });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         //Apply GridLayout
         //mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        //mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mProgressBar.setVisibility(View.INVISIBLE);
-
-//        recipeNames = new ArrayList<>();
-//        recipeImageURLs = new ArrayList<>();
-//        recipeURIs = new ArrayList<>();
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
@@ -171,6 +163,7 @@ public class RecipesListActivity extends AppCompatActivity {
                             Log.d(LOG_TAG, "recipeNames size: " + recipeNames.size() + " recipeURLs size: " + recipeImageURLs.size());
                             mAdapter = new RecyclerAdapter(recipeNames, recipeImageURLs, recipeURIs);
                             mRecyclerView.setAdapter(mAdapter);
+                            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
 
                         } catch (Exception e) {
                             e.printStackTrace();

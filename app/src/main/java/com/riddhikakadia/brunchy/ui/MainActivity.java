@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity
     public static final int RC_SIGN_IN = 111;
     final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
 
+    public static SharedPreferences sharedPreferences;
+
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private FirebaseAuth mFirebaseAuth;
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(snapNCookIntent);
             }
         });
+
+        sharedPreferences = getSharedPreferences(RECIPE_SETTINGS, Context.MODE_PRIVATE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
