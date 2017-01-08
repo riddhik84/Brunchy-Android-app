@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/snap_n_cook"
+    android:background="@color/colorGrey_300"
     tools:context="com.riddhikakadia.brunchy.ui.SnapNCookActivity">
 
     <include
@@ -11,12 +12,12 @@
         layout="@layout/simple_toolbar" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/select_picture_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="65dp"
         android:fontFamily="sans-serif"
         android:shadowColor="#000"
         android:shadowDx="5"
@@ -24,35 +25,50 @@
         android:shadowRadius="20"
         android:text="@string/snap_n_cook_message"
         android:textColor="@android:color/white"
-        android:textSize="25sp"
+        android:textSize="34sp"
         android:textStyle="bold" />
 
-    <ImageButton
-        android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/image_scroll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/recipeButton"
-        android:layout_alignTop="@+id/galleryButton"
-        android:background="@drawable/snap_icon"
-        android:clickable="true" />
+        android:layout_below="@id/select_picture_text">
 
-    <Button
-        android:id="@+id/recipeButton"
-        android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/image_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:elevation="4dp"
+            android:shadowColor="#000"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="20"
+            app:cardCornerRadius="8dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true" />
+        </android.support.v7.widget.CardView>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/chooseItemsText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/get_recipe"
+        android:layout_alignEnd="@+id/item_listView"
+        android:layout_below="@+id/image_scroll"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/choose_ingredient"
+        android:textColor="#000000"
+        android:textStyle="bold"
         android:visibility="invisible" />
-
-    <ImageButton
-        android:id="@+id/galleryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/recipeButton"
-        android:layout_below="@+id/textView"
-        android:background="@drawable/gallery_icon"
-        android:clickable="true" />
 
     <ListView
         android:id="@+id/item_listView"
@@ -60,25 +76,38 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/recipeButton"
         android:layout_below="@+id/chooseItemsText"
+        android:layout_margin="8dp"
         android:choiceMode="multipleChoice" />
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/cameraButton" />
-
-    <TextView
-        android:id="@+id/chooseItemsText"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_camera"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/item_listView"
-        android:layout_below="@+id/imageView"
-        android:layout_toStartOf="@+id/cameraButton"
-        android:text="@string/choose_ingredient"
-        android:textColor="#000000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_menu_camera" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/recipeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:gravity="center"
+        android:text="@string/get_recipe"
         android:visibility="invisible" />
+
 </RelativeLayout>
 

@@ -23,7 +23,8 @@
                 android:id="@+id/recipe_search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:queryHint="Search recipes..." />
+                android:queryHint="Search recipes..."
+                android:saveEnabled="true"/>
 
         </android.support.v7.widget.Toolbar>
 

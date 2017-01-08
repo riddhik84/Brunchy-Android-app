@@ -69,8 +69,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -107,6 +106,8 @@
 
                 </android.support.v7.widget.CardView>
 
+                <include layout="@layout/detail_screen_action_buttons" />
+
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,15 +143,15 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/share_recipe_fab"
+        android:id="@+id/favorite_recipe_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="52dp"
         android:layout_marginRight="24dp"
-        android:contentDescription="@string/action_share"
-        android:src="@drawable/ic_menu_share"
-        app:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/action_favorite"
+        android:src="@drawable/favourite_icon_non_selected"
+        app:backgroundTint="@color/colorAccent"
         app:elevation="6dp"
         app:fabSize="auto"
         app:rippleColor="@color/colorPrimary" />
@@ -160,7 +161,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginTop="8dp"
         android:text="Get Directions"
         android:textAlignment="center" />
 

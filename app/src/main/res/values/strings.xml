@@ -32,6 +32,8 @@
     <string name="choose_ingredient">Choose Ingredient</string>
 
     <string name="action_share">Share</string>
+    <string name="action_favorite">Favorite</string>
+
 
     <string name="veg_switch">VEG</string>
 

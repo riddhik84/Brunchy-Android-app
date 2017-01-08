@@ -3,10 +3,10 @@ package com.riddhikakadia.brunchy.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,7 +28,6 @@ import com.riddhikakadia.brunchy.BuildConfig;
 import com.riddhikakadia.brunchy.R;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -45,11 +44,13 @@ public class SnapNCookActivity extends AppCompatActivity {
     private final ClarifaiClient clarifaiClient = new ClarifaiClient(BuildConfig.CLIENT_ID, BuildConfig.CLIENT_SECRET);
 
     private static String searchTerm = "";
+
     private static ArrayList<String> itemsToFind = new ArrayList<>();
-    private ListView listview;
-    private ImageButton cameraButton;
-    private ImageButton galleryButton;
     private ArrayList<String> items = new ArrayList<>();
+
+    private ListView listview;
+    FloatingActionButton cameraButton;
+    FloatingActionButton galleryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +59,10 @@ public class SnapNCookActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Snap N Cook");
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        cameraButton = (ImageButton) findViewById(R.id.cameraButton);
-        galleryButton = (ImageButton) findViewById(R.id.galleryButton);
+        cameraButton = (FloatingActionButton) findViewById(R.id.fab_camera);
+        galleryButton = (FloatingActionButton) findViewById(R.id.fab_gallery);
         listview = (ListView) findViewById(R.id.item_listView);
 
         cameraButton.setOnClickListener(new View.OnClickListener() {

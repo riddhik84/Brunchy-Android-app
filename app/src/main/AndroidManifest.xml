@@ -27,15 +27,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.CategoriesActivity"
-            android:label="@string/title_activity_categories"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.riddhikakadia.brunchy.ui.MainActivity" />
-        </activity>
-        <activity
             android:name=".ui.RecipesListActivity"
             android:label="@string/title_activity_recipes_list"
             android:parentActivityName=".ui.MainActivity"
@@ -50,8 +41,16 @@
                 android:value="com.riddhikakadia.brunchy.ui.MainActivity" />
         </activity>
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.SnapNCookActivity" />
-        <activity android:name=".ui.RecipeDetailActivity" />
+        <activity android:name=".ui.SnapNCookActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.riddhikakadia.brunchy.ui.MainActivity" />
+        </activity>
+        <activity android:name=".ui.RecipeDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.riddhikakadia.brunchy.ui.RecipesListActivity" />
+        </activity>
         <activity android:name=".ui.WebViewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

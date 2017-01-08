@@ -33,7 +33,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.riddhikakadia.brunchy.R;
 import com.riddhikakadia.brunchy.fragments.HomeFragment;
-import com.riddhikakadia.brunchy.service.NotificationService;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -210,7 +209,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Sign In Canceled!", Toast.LENGTH_SHORT).show();
                 finish();
             } else if (resultCode == ResultCodes.RESULT_NO_NETWORK) {
-                showSnackbar();
+                //TODO: show toast
                 return;
             }
         }
@@ -257,11 +256,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             if (fragmentContainer != null)
                 getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), homeFragment).commit();
-        } else if (id == R.id.nav_categories) {
-            Intent categories = new Intent(this, CategoriesActivity.class);
-            startActivity(categories);
         } else if (id == R.id.nav_snap_n_cook) {
-
+            Intent snap_n_cook = new Intent(this, SnapNCookActivity.class);
+            startActivity(snap_n_cook);
         } else if (id == R.id.nav_favorites) {
 
         } else if (id == R.id.nav_logout) {
@@ -337,12 +334,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-    public void showSnackbar() {
-        if (fragmentContainer != null) {
-            Snackbar.make(fragmentContainer, "No Internet connection...", Snackbar.LENGTH_LONG).show();
-        }
     }
 
     public void signout() {

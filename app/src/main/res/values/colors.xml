@@ -16,4 +16,9 @@
     <color name="colorPrimaryDark_">#4E342E</color>
     <color name="colorBrown_300">#A1887F</color>
 
+    <color name="colorGrey_300">#E0E0E0</color>
+
+    <color name="black_transparent_60">#99000000</color>
+
+
 </resources>

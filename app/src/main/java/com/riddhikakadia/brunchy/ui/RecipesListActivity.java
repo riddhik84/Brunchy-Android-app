@@ -51,12 +51,13 @@ public class RecipesListActivity extends AppCompatActivity {
 
     ProgressBar mProgressBar;
 
-    String recipeToSearch = "";
+    static String recipeToSearch;
     boolean vegRecipeSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_recipes_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,7 +106,7 @@ public class RecipesListActivity extends AppCompatActivity {
         if (intent.getExtras() != null) {
             if (intent.getExtras().get(RECIPE_TO_SEARCH) != null) {
                 recipeToSearch = intent.getExtras().get(RECIPE_TO_SEARCH).toString();
-                Log.d(LOG_TAG, "Recipe to search from search box: " + recipeToSearch);
+                Log.d(LOG_TAG, "*** Recipe to search from search box: " + recipeToSearch);
                 getSupportActionBar().setTitle(recipeToSearch);
             }
         }
@@ -114,6 +115,27 @@ public class RecipesListActivity extends AppCompatActivity {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        //searchRecipes();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(LOG_TAG, "*** In onSaveInstanceState " + recipeToSearch);
+        outState.putString(RECIPE_TO_SEARCH, recipeToSearch);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        recipeToSearch = savedInstanceState.getString(RECIPE_TO_SEARCH);
+        Log.d(LOG_TAG, "*** In onRestoreInstanceState " + recipeToSearch);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "*** In onResume " + recipeToSearch);
+        getSupportActionBar().setTitle(recipeToSearch);
         searchRecipes();
     }
 

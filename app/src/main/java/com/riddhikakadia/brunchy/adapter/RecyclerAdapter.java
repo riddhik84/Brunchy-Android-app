@@ -67,6 +67,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
                 .load(recipe_image_URLs.get(position))
                 .noFade()
                 .resize(500, imageHeight)
+                .placeholder(R.drawable.placeholder_food)
                 .centerCrop()
                 //.fit()
                 .into(holder.recipe_photo);

@@ -39,8 +39,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
     final String LOG_TAG = RecipeDetailActivity.class.getSimpleName();
     final String BASE_URL = "https://api.edamam.com/";
     final String RECIPE_ID = "RECIPE_ID";
+    final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
     final String WEBVIEW_LINK = "WEBVIEW_LINK";
     String recipe_id = "";
+    String recipe_to_search = "";
 
     final private int default_color = 0x000000;
 
@@ -53,7 +55,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     ImageView recipe_detail_image;
     TextView ingredient_texts;
     Button recipe_link_button;
-    FloatingActionButton share_recipe;
+    FloatingActionButton favorite_recipe;
     View upButton;
 
     CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -75,7 +77,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         recipe_detail_image = (ImageView) findViewById(R.id.recipe_detail_image);
         ingredient_texts = (TextView) findViewById(R.id.ingredient_texts);
         recipe_link_button = (Button) findViewById(R.id.recipe_link_button);
-        share_recipe = (FloatingActionButton) findViewById(R.id.share_recipe_fab);
+        favorite_recipe = (FloatingActionButton) findViewById(R.id.favorite_recipe_fab);
         total_serving = (TextView) findViewById(R.id.total_serving);
         total_ingredients = (TextView) findViewById(R.id.total_ingredients);
 
@@ -223,7 +225,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
             }
         });
 
-        share_recipe.setOnClickListener(new View.OnClickListener() {
+        favorite_recipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
