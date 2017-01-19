@@ -11,12 +11,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -256,6 +258,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
                                     .load(recipeImage)
                                     .fit()
                                     .noFade()
+                                    .placeholder(R.drawable.placeholder_detail_screen)
+                                    .error(R.drawable.placeholder_detail_screen)
                                     .into(recipe_detail_image, new com.squareup.picasso.Callback() {
                                         @Override
                                         public void onSuccess() {
@@ -609,31 +613,39 @@ public class RecipeDetailActivity extends AppCompatActivity {
                         if (cursorFav.getCount() > 0) {
                             //Log.d(LOG_TAG, "*** Recipe already added as favorite");
                         } else {
-                            ContentValues recipeValues = new ContentValues();
+                            if (recipeImage.length() > 0) {
+                                ContentValues recipeValues = new ContentValues();
 
-                            recipeValues.put(FavoriteRecipes.COLUMN_USER_EMAIL, Global.currentUserEmail);
-                            recipeValues.put(FavoriteRecipes.COLUMN_RECIPE_ID, recipe_id_raw);
-                            recipeValues.put(FavoriteRecipes.COLUMN_RECIPE_NAME, recipeName);
-                            recipeValues.put(FavoriteRecipes.COLUMN_RECIPE_PHOTO_LINK, recipeImage);
-                            recipeValues.put(FavoriteRecipes.COLUMN_TOTAL_INGREDIENTS, totalIngredients);
-                            recipeValues.put(FavoriteRecipes.COLUMN_CALORIES_PER_SERVING, caloriesPerServing);
-                            recipeValues.put(FavoriteRecipes.COLUMN_TOTAL_SERVING, yield);
-                            recipeValues.put(FavoriteRecipes.COLUMN_INGREDIENTS, ingredients);
-                            recipeValues.put(FavoriteRecipes.COLUMN_HEALTH_LABELS, dietlabels + healthlabels);
+                                recipeValues.put(FavoriteRecipes.COLUMN_USER_EMAIL, Global.currentUserEmail);
+                                recipeValues.put(FavoriteRecipes.COLUMN_RECIPE_ID, recipe_id_raw);
+                                recipeValues.put(FavoriteRecipes.COLUMN_RECIPE_NAME, recipeName);
+                                recipeValues.put(FavoriteRecipes.COLUMN_RECIPE_PHOTO_LINK, recipeImage);
+                                recipeValues.put(FavoriteRecipes.COLUMN_TOTAL_INGREDIENTS, totalIngredients);
+                                recipeValues.put(FavoriteRecipes.COLUMN_CALORIES_PER_SERVING, caloriesPerServing);
+                                recipeValues.put(FavoriteRecipes.COLUMN_TOTAL_SERVING, yield);
+                                recipeValues.put(FavoriteRecipes.COLUMN_INGREDIENTS, ingredients);
+                                recipeValues.put(FavoriteRecipes.COLUMN_HEALTH_LABELS, dietlabels + healthlabels);
 
-                            //add values to database
-                            //Log.d(LOG_TAG, "*** FavoriteRecipes.buildFavoriteRecipeUri() " + FavoriteRecipes.buildFavoriteRecipeUri());
-                            Uri insertedColumn = getContentResolver().insert(FavoriteRecipes.buildFavoriteRecipeUri(),
-                                    recipeValues);
-                            //Log.d(LOG_TAG, "*** insertColumn Uri " + insertedColumn.toString());
+                                //add values to database
+                                //Log.d(LOG_TAG, "*** FavoriteRecipes.buildFavoriteRecipeUri() " + FavoriteRecipes.buildFavoriteRecipeUri());
+                                Uri insertedColumn = getContentResolver().insert(FavoriteRecipes.buildFavoriteRecipeUri(),
+                                        recipeValues);
+                                //Log.d(LOG_TAG, "*** insertColumn Uri " + insertedColumn.toString());
 
-                            //remove after testing
-                            //TestTable();
+                                //remove after testing
+                                //TestTable();
 
-                            Toast.makeText(getApplicationContext(),
-                                    getApplication().getResources().getString(R.string.added_to_fav_toast),
-                                    Toast.LENGTH_SHORT)
-                                    .show();
+                                Toast.makeText(getApplicationContext(),
+                                        getApplication().getResources().getString(R.string.added_to_fav_toast),
+                                        Toast.LENGTH_SHORT)
+                                        .show();
+                            } else {
+                                favorited = false;
+                                favorite_recipe.setImageResource(R.drawable.favourite_icon_non_selected);
+                                Toast.makeText(getApplicationContext(),
+                                        getApplication().getResources().getString(R.string.select_fav_again_text),
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                         updateWidget();
                     } else {

@@ -39,6 +39,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 
+import static com.riddhikakadia.brunchy.util.Constants.ACTION_DATA_UPDATED;
 import static com.riddhikakadia.brunchy.util.Constants.RECIPE_SETTINGS;
 import static com.riddhikakadia.brunchy.util.Constants.RECIPE_TO_SEARCH;
 
@@ -222,6 +223,7 @@ public class MainActivity extends AppCompatActivity
             //Log.d(LOG_TAG, "*** requestCode RC_SIGN_IN");
             if (resultCode == RESULT_OK) {
                 //Log.d(LOG_TAG, "*** resultCode RESULT_OK sign in");
+                updateWidget();
             } else if (resultCode == RESULT_CANCELED) {
                 //Log.d(LOG_TAG, "*** resultCode RESULT_CANCELED sign in");
                 Toast.makeText(this, getResources().getString(R.string.sign_in_canceled_message), Toast.LENGTH_SHORT).show();
@@ -320,7 +322,9 @@ public class MainActivity extends AppCompatActivity
                     logoutDialog.setPositiveButton(getResources().getString(R.string.ok_button_text), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            signout();
+                            logout();
+                            onSignedOutCleanup();
+                            updateWidget();
                         }
                     })
                             .setNegativeButton(getResources().getString(R.string.cancel_button_text), new DialogInterface.OnClickListener() {
@@ -392,16 +396,24 @@ public class MainActivity extends AppCompatActivity
         user_account_email.setText(mEmail);
     }
 
-    private void onSignedOutCleanup() {
-
-    }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
-    public void signout() {
+    public void logout() {
         AuthUI.getInstance().signOut(this);
+    }
+
+    private void onSignedOutCleanup() {
+        Global.currentUserEmail = "";
+        Global.currentUser = "";
+        Global.getCurrentUserID = "";
+    }
+
+    public void updateWidget() {
+        //Log.d(LOG_TAG, "*** updateWidget()");
+        Intent intent = new Intent(ACTION_DATA_UPDATED).setPackage(this.getPackageName());
+        sendBroadcast(intent);
     }
 }

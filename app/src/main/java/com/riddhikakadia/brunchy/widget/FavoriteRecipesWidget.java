@@ -16,6 +16,7 @@ import com.riddhikakadia.brunchy.data.RecipesContract;
 import com.riddhikakadia.brunchy.ui.FavoriteRecipesActivity;
 import com.riddhikakadia.brunchy.ui.RecipeDetailActivity;
 import com.riddhikakadia.brunchy.ui.RecipesListActivity;
+import com.riddhikakadia.brunchy.util.Global;
 
 import static com.riddhikakadia.brunchy.util.Constants.ACTION_DATA_UPDATED;
 
@@ -51,7 +52,7 @@ public class FavoriteRecipesWidget extends AppWidgetProvider {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.favorite_recipes_widget);
 
-            // Create an Intent to launch detailActivity
+            //Create an Intent to launch detailActivity
             //implement for detail screen
             Intent intent = new Intent(context, FavoriteRecipesActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -71,6 +72,7 @@ public class FavoriteRecipesWidget extends AppWidgetProvider {
             PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
                     .addNextIntentWithParentStack(clickIntentTemplate)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
             views.setPendingIntentTemplate(R.id.favorite_recipes_list_widget, clickPendingIntentTemplate);
             views.setEmptyView(R.id.favorite_recipes_list_widget, R.id.no_data_textview_widget);
 

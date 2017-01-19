@@ -3,7 +3,7 @@
     android:initialLayout="@layout/favorite_recipes_widget"
     android:minHeight="240dp"
     android:minWidth="240dp"
-    android:previewImage="@drawable/search_icon"
+    android:previewImage="@drawable/widget_preview"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen" />

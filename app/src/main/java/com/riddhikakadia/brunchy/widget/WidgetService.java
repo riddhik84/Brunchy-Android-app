@@ -49,8 +49,10 @@ public class WidgetService extends RemoteViewsService {
     public class ListProvider implements RemoteViewsFactory {
 
         final String LOG_TAG = ListProvider.class.getSimpleName();
+
         private Context context = null;
         Cursor cursor;
+        private boolean isLoggedIn;
 
         public ListProvider(Context context, Intent intent) {
             this.context = context;
@@ -59,28 +61,47 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public void onCreate() {
             //Log.d(LOG_TAG, "*** widget ListProvider onCreate()");
-            cursor = getContentResolver().query(
-                    RecipesContract.FavoriteRecipes.buildFavoriteRecipeUri(),
-                    FAVOURITE_RECIPE_COLUMNS,
-                    RecipesContract.FavoriteRecipes.COLUMN_USER_EMAIL + "=?",
-                    new String[]{Global.currentUserEmail},
-                    null);
+            if (Global.currentUserEmail != null && Global.currentUserEmail != "") {
+                isLoggedIn = true;
+
+                cursor = getContentResolver().query(
+                        RecipesContract.FavoriteRecipes.buildFavoriteRecipeUri(),
+                        FAVOURITE_RECIPE_COLUMNS,
+                        RecipesContract.FavoriteRecipes.COLUMN_USER_EMAIL + "=?",
+                        new String[]{Global.currentUserEmail},
+                        null);
+            } else {
+                //App is not logged in
+            }
         }
 
         @Override
         public void onDataSetChanged() {
-            //Log.d(LOG_TAG, "*** widget ListProvider onDataSetChanged()");
-            cursor = getContentResolver().query(
-                    RecipesContract.FavoriteRecipes.buildFavoriteRecipeUri(),
-                    FAVOURITE_RECIPE_COLUMNS,
-                    RecipesContract.FavoriteRecipes.COLUMN_USER_EMAIL + "=?",
-                    new String[]{Global.currentUserEmail},
-                    null);
+            //Log.d(LOG_TAG, "*** widget ListProvider onDataSetChanged() " + Global.currentUserEmail);
 
             RemoteViews remoteViews = new RemoteViews(this.context.getPackageName(), R.layout.favorite_recipes_widget);
-            if (cursor.getCount() == 0) {
+            if (Global.currentUserEmail != null && Global.currentUserEmail != "") {
+                Log.d(LOG_TAG, "*** widget ListProvider onDataSetChanged() user not null " + Global.currentUserEmail);
+                isLoggedIn = true;
+
+                cursor = getContentResolver().query(
+                        RecipesContract.FavoriteRecipes.buildFavoriteRecipeUri(),
+                        FAVOURITE_RECIPE_COLUMNS,
+                        RecipesContract.FavoriteRecipes.COLUMN_USER_EMAIL + "=?",
+                        new String[]{Global.currentUserEmail},
+                        null);
+
+                if (cursor != null) {
+                    if (cursor.getCount() == 0) {
+                        remoteViews.setEmptyView(R.id.favorite_recipes_list_widget, R.id.no_data_textview_widget);
+                        remoteViews.setTextViewText(R.id.no_data_textview_widget, getResources().getString(R.string.no_favorite_recipes_message));
+                    }
+                }
+            } else {
+                isLoggedIn = false;
+                //Log.d(LOG_TAG, "*** widget ListProvider onDataSetChanged() user null or blank " + Global.currentUserEmail);
                 remoteViews.setEmptyView(R.id.favorite_recipes_list_widget, R.id.no_data_textview_widget);
-                remoteViews.setTextViewText(R.id.no_data_textview_widget, getResources().getString(R.string.no_favorite_recipes_message));
+                remoteViews.setTextViewText(R.id.no_data_textview_widget, getResources().getString(R.string.app_not_logged_in_message));
             }
         }
 
@@ -114,18 +135,26 @@ public class WidgetService extends RemoteViewsService {
             final RemoteViews remoteView = new RemoteViews(
                     context.getPackageName(), R.layout.favorite_recipes_widget_list_item);
 
-            if (cursor.moveToPosition(position)) {
-                String recipeName = cursor.getString(3);
-                //Log.d(LOG_TAG, "*** widget recipeName " + recipeName);
-                remoteView.setTextViewText(R.id.favorite_recipe_name_text_widget, recipeName);
-                String recipeID = cursor.getString(2);
+            if (isLoggedIn) {
+                if (cursor != null) {
+                    if (cursor.getCount() > 0) {
+                        if (cursor.moveToPosition(position)) {
+                            //Log.d(LOG_TAG, "*** widget RemoteViews cursor.moveToPosition(position) " + position);
 
-                Bundle extras = new Bundle();
-                extras.putString(RECIPE_ID, recipeID);
+                            String recipeName = cursor.getString(3);
+                            //Log.d(LOG_TAG, "*** widget recipeName " + recipeName);
+                            remoteView.setTextViewText(R.id.favorite_recipe_name_text_widget, recipeName);
+                            String recipeID = cursor.getString(2);
 
-                Intent fillInIntent = new Intent();
-                fillInIntent.putExtras(extras);
-                remoteView.setOnClickFillInIntent(R.id.favorite_recipe_name_text_widget, fillInIntent);
+                            Bundle extras = new Bundle();
+                            extras.putString(RECIPE_ID, recipeID);
+
+                            Intent fillInIntent = new Intent();
+                            fillInIntent.putExtras(extras);
+                            remoteView.setOnClickFillInIntent(R.id.favorite_recipe_name_text_widget, fillInIntent);
+                        }
+                    }
+                }
             }
 
             return remoteView;

@@ -66,11 +66,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         }
 
         holder.recipe_name.setText(recipe_names.get(position));
+
+        String loadImageURL;
+        if (recipe_image_URLs.get(position) == null || recipe_image_URLs.get(position).length() < 1) {
+            loadImageURL = inflater.getContext().getResources().getDrawable(R.drawable.placeholder_food).toString();
+        } else {
+            loadImageURL = recipe_image_URLs.get(position);
+        }
         Picasso.with(inflater.getContext())
-                .load(recipe_image_URLs.get(position))
+                .load(loadImageURL)
                 .noFade()
                 .resize(IMAGE_WIDTH, imageHeight)
                 .placeholder(R.drawable.placeholder_food)
+                .error(R.drawable.placeholder_food)
                 .centerCrop()
                 //.fit()
                 .into(holder.recipe_photo);

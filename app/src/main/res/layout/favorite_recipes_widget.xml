@@ -8,15 +8,17 @@
 
     <TextView
         android:id="@+id/favorite_recipes_header_widget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/transparent"
+        android:background="@color/colorAccent"
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/favorite_recipes_header"
-        android:textColor="@android:color/black"
-        android:textSize="25sp" />
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:theme="@style/ShadowTextAppearance" />
 
     <ListView
         android:id="@+id/favorite_recipes_list_widget"
@@ -27,12 +29,14 @@
 
     <TextView
         android:id="@+id/no_data_textview_widget"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/colorAccent"
         android:text="@string/no_favorite_recipes_message"
         android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:theme="@style/ShadowTextAppearance"
+         />
 
 </LinearLayout>
