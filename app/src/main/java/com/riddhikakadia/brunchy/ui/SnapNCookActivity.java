@@ -18,6 +18,7 @@ import android.widget.CheckedTextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.clarifai.api.ClarifaiClient;
@@ -26,11 +27,14 @@ import com.clarifai.api.RecognitionResult;
 import com.clarifai.api.Tag;
 import com.riddhikakadia.brunchy.BuildConfig;
 import com.riddhikakadia.brunchy.R;
+import com.riddhikakadia.brunchy.util.Utility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import static com.riddhikakadia.brunchy.util.Constants.RECIPE_TO_SEARCH;
 
 public class SnapNCookActivity extends AppCompatActivity {
 
@@ -38,8 +42,6 @@ public class SnapNCookActivity extends AppCompatActivity {
 
     private static final int CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int GALLERY_IMAGE_REQUEST_CODE = 200;
-
-    final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
 
     private final ClarifaiClient clarifaiClient = new ClarifaiClient(BuildConfig.CLIENT_ID, BuildConfig.CLIENT_SECRET);
 
@@ -51,6 +53,7 @@ public class SnapNCookActivity extends AppCompatActivity {
     private ListView listview;
     FloatingActionButton cameraButton;
     FloatingActionButton galleryButton;
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +61,13 @@ public class SnapNCookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_snap_ncook);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Snap N Cook");
+        getSupportActionBar().setTitle(getString(R.string.snal_n_cook_header));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         cameraButton = (FloatingActionButton) findViewById(R.id.fab_camera);
         galleryButton = (FloatingActionButton) findViewById(R.id.fab_gallery);
         listview = (ListView) findViewById(R.id.item_listView);
+        mProgressBar = (ProgressBar) findViewById(R.id.snap_n_cook_progressbar);
 
         cameraButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -113,7 +117,7 @@ public class SnapNCookActivity extends AppCompatActivity {
         recipeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(SnapNCookActivity.this, RecipesListActivity.class);
-                Log.d(LOG_TAG, "RK searchterm: " + searchTerm);
+                //Log.d(LOG_TAG, "*** searchterm: " + searchTerm);
                 i.putExtra(RECIPE_TO_SEARCH, getSearchTerm());
 
                 startActivity(i);
@@ -143,35 +147,49 @@ public class SnapNCookActivity extends AppCompatActivity {
                 imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 320,
                         320 * imageBitmap.getHeight() / imageBitmap.getWidth(), true);
 
-                // Run recognition on a background thread.
-                new AsyncTask<Bitmap, Void, RecognitionResult>() {
-                    @Override
-                    protected RecognitionResult doInBackground(Bitmap... bitmaps) {
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmaps[0].compress(Bitmap.CompressFormat.JPEG, 90, stream);
-                        byte[] byteArray = stream.toByteArray();
-                        return clarifaiClient.recognize(new RecognitionRequest(byteArray).setModel("food-items-v0.1")).get(0);
-                    }
+                if (Utility.isNetworkConnected(this)) {
+                    // Run recognition on a background thread.
+                    //Log.d(LOG_TAG, "*** snap n cook network connected");
 
-                    @Override
-                    protected void onPostExecute(RecognitionResult result) {
-                        clearScreen();
-                        for (Tag tag : result.getTags()) {
-                            items.add(tag.getName());
+                    new AsyncTask<Bitmap, Void, RecognitionResult>() {
+                        @Override
+                        protected void onPreExecute() {
+                            //Log.d(LOG_TAG, "*** In snap n cook onPreExecute");
                         }
-                        addItemsList();
-                        showRecipeBtn();
-                    }
-                }.execute(imageBitmap);
+
+                        @Override
+                        protected RecognitionResult doInBackground(Bitmap... bitmaps) {
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmaps[0].compress(Bitmap.CompressFormat.JPEG, 90, stream);
+                            byte[] byteArray = stream.toByteArray();
+                            return clarifaiClient.recognize(new RecognitionRequest(byteArray).setModel("food-items-v0.1")).get(0);
+                        }
+
+                        @Override
+                        protected void onPostExecute(RecognitionResult result) {
+                            clearScreen();
+                            for (Tag tag : result.getTags()) {
+                                items.add(tag.getName());
+                                //+ " " + tag.getProbability() + " "
+                            }
+                            addItemsList();
+                            showRecipeBtn();
+                        }
+                    }.execute(imageBitmap);
+                } else {
+                    Utility.showNoInternetToast(this);
+                }
 
             } catch (FileNotFoundException e) {
-                Log.e(LOG_TAG, e.getMessage());
+                //Log.e(LOG_TAG, e.getMessage());
             }
         } else if (resultCode == RESULT_CANCELED) {
             // User cancelled the image capture or selection.
+            //Log.e(LOG_TAG, "*** capture canceled");
+
         } else {
             // capture failed or did not find file.
-            Log.e(LOG_TAG, "RK capture failed");
+            //Log.e(LOG_TAG, "*** capture failed");
         }
     }
 

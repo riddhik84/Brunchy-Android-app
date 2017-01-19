@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/favorite_recipes_widget"
+    android:minHeight="240dp"
+    android:minWidth="240dp"
+    android:previewImage="@drawable/search_icon"
+    android:resizeMode="vertical|horizontal"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

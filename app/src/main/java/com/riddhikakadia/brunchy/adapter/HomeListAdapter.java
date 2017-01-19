@@ -20,14 +20,15 @@ public class HomeListAdapter extends ArrayAdapter<String> {
     private Activity context;
     private String[] recipeList;
     private Integer[] recipeImages;
-    int default_color = 0x000000;
+
+    private final int IMAGE_WIDTH = 1200;
+    private final int IMAGE_HEIGHT = 800;
 
     public HomeListAdapter(Activity context, String[] recipeList, Integer[] recipeImages) {
         super(context, R.layout.home_list_item, recipeList);
         this.context = context;
         this.recipeList = recipeList;
         this.recipeImages = recipeImages;
-
     }
 
     public View getView(int position, View view, ViewGroup parent) {
@@ -37,21 +38,17 @@ public class HomeListAdapter extends ArrayAdapter<String> {
         ImageView recipeCategoryImage = (ImageView) rowView.findViewById(R.id.home_list_item_image);
         TextView recipeCategory = (TextView) rowView.findViewById(R.id.home_list_item_text);
 
-//        Bitmap imageBitmap = BitmapFactory.decodeResource(context.getResources(), recipeImages[position]);
-//        if (imageBitmap != null && !imageBitmap.isRecycled()) {
-//            Palette palette = Palette.from(imageBitmap).generate();
-//            int vibrant = palette.getVibrantColor(default_color);
-//            recipeCategory.setTextColor(vibrant);
-//        }
         Picasso.with(context)
                 .load(recipeImages[position])
-                .resize(1200, 800)
+                .resize(IMAGE_WIDTH, IMAGE_HEIGHT)
                 //.resize(1200, 0)
                 //.noFade()
                 //.skipMemoryCache()
                 //.placeholder(R.drawable.placeholder)
                 .placeholder(recipeImages[position])
                 .into(recipeCategoryImage);
+        recipeCategory.setContentDescription(recipeList[position]);
+
         recipeCategory.setText(recipeList[position]);
         return rowView;
     }

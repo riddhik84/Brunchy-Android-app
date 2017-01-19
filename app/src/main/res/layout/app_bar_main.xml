@@ -23,7 +23,7 @@
                 android:id="@+id/recipe_search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:queryHint="Search recipes..."
+                android:queryHint="@string/search_box_hint"
                 android:saveEnabled="true"/>
 
         </android.support.v7.widget.Toolbar>
@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/snap_icon" />
+        app:srcCompat="@drawable/snap_icon"
+        android:contentDescription="@string/snap_n_cook_fab_button_content_desc"/>
 
 </android.support.design.widget.CoordinatorLayout>

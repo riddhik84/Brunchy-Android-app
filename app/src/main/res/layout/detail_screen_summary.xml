@@ -11,12 +11,13 @@
         android:layout_weight="1"
         android:background="@color/colorPrimary"
         android:paddingBottom="8dp"
-        android:paddingLeft="@dimen/article_byline_padding_left"
-        android:paddingRight="@dimen/article_byline_padding_right"
+        android:paddingEnd="@dimen/article_byline_padding_right"
+        android:paddingStart="@dimen/article_byline_padding_left"
         android:paddingTop="8dp"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/article_byline_text_size" />
+        android:textSize="@dimen/article_byline_text_size"
+        android:theme="@style/ShadowTextAppearance" />
 
     <TextView
         android:id="@+id/calories_per_serving"
@@ -25,12 +26,13 @@
         android:layout_weight="1"
         android:background="@color/colorPrimary"
         android:paddingBottom="8dp"
-        android:paddingLeft="@dimen/article_byline_padding_left"
-        android:paddingRight="@dimen/article_byline_padding_right"
+        android:paddingEnd="@dimen/article_byline_padding_right"
+        android:paddingStart="@dimen/article_byline_padding_left"
         android:paddingTop="8dp"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/article_byline_text_size" />
+        android:textSize="@dimen/article_byline_text_size"
+        android:theme="@style/ShadowTextAppearance" />
 
     <TextView
         android:id="@+id/total_serving"
@@ -39,11 +41,12 @@
         android:layout_weight="1"
         android:background="@color/colorPrimary"
         android:paddingBottom="8dp"
-        android:paddingLeft="@dimen/article_byline_padding_left"
-        android:paddingRight="@dimen/article_byline_padding_right"
+        android:paddingEnd="@dimen/article_byline_padding_right"
+        android:paddingStart="@dimen/article_byline_padding_left"
         android:paddingTop="8dp"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/article_byline_text_size" />
+        android:textSize="@dimen/article_byline_text_size"
+        android:theme="@style/ShadowTextAppearance" />
 
 </LinearLayout>

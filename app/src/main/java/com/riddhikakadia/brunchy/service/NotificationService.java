@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static com.riddhikakadia.brunchy.util.Constants.RECIPE_TO_SEARCH;
+
 
 /**
  * Created by RKs on 1/7/2017.
@@ -29,14 +31,13 @@ public class NotificationService extends FirebaseMessagingService {
 
     private final String LOG_TAG = NotificationService.class.getSimpleName();
     final int notificationID = 101;
-    final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
 
     Bitmap recipe_image = null;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d(LOG_TAG, "RK In FirebaseMessagingService");
+        //Log.d(LOG_TAG, "*** In FirebaseMessagingService");
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(R.drawable.chef2)
@@ -46,7 +47,7 @@ public class NotificationService extends FirebaseMessagingService {
 
         try {
             URL url = new URL(remoteMessage.getData().get("picture"));
-            Log.d(LOG_TAG, "RK image URL: " + url.toString());
+            //Log.d(LOG_TAG, "*** image URL: " + url.toString());
 
             recipe_image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
         } catch (MalformedURLException mfu) {

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,25 +33,30 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.riddhikakadia.brunchy.R;
 import com.riddhikakadia.brunchy.fragments.HomeFragment;
+import com.riddhikakadia.brunchy.util.Global;
+import com.riddhikakadia.brunchy.util.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 
-import static com.riddhikakadia.brunchy.util.RecipesInfo.RECIPE_SETTINGS;
+import static com.riddhikakadia.brunchy.util.Constants.RECIPE_SETTINGS;
+import static com.riddhikakadia.brunchy.util.Constants.RECIPE_TO_SEARCH;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener {
 
-    public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 111;
-    final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
 
     public static SharedPreferences sharedPreferences;
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final int IMAGE_WIDTH = 170;
+    private final int IMAGE_HEIGHT = 170;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    FirebaseUser firebaseUser;
 
     View navigationHeader;
     ImageView user_account_photo;
@@ -66,28 +71,33 @@ public class MainActivity extends AppCompatActivity
     String mUsername;
     String mEmail;
     Uri mPhotoUrl;
-    View mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         recipe_search_view = (SearchView) findViewById(R.id.recipe_search_view);
+        recipe_search_view.setLayoutParams(new Toolbar.LayoutParams(Gravity.END));  //Move search icon to right
+
+        sharedPreferences = getSharedPreferences(RECIPE_SETTINGS, Context.MODE_PRIVATE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setContentDescription(getString(R.string.snap_n_cook_fab_button_content_desc));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent snapNCookIntent = new Intent(getApplicationContext(), SnapNCookActivity.class);
-                startActivity(snapNCookIntent);
+                if (Utility.isNetworkConnected(getApplicationContext())) {
+                    Intent snap_n_cook = new Intent(getApplicationContext(), SnapNCookActivity.class);
+                    startActivity(snap_n_cook);
+                } else {
+                    Utility.showNoInternetToast(getApplicationContext());
+                }
             }
         });
-
-        sharedPreferences = getSharedPreferences(RECIPE_SETTINGS, Context.MODE_PRIVATE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         user_account_name = (TextView) navigationHeader.findViewById(R.id.user_account_name);
         user_account_email = (TextView) navigationHeader.findViewById(R.id.user_account_email);
 
-        mUsername = ANONYMOUS;
+        mUsername = "";
         mEmail = "";
         mPhotoUrl = null;
 
@@ -112,10 +122,10 @@ public class MainActivity extends AppCompatActivity
         homeFragment = new HomeFragment();
 
         if (fragmentContainer != null) {
-            Log.d(LOG_TAG, "RK view found");
+            //Log.d(LOG_TAG, "*** fragmentContainer found");
             getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), homeFragment).commit();
         } else {
-            Log.d(LOG_TAG, "RK view not found");
+            //Log.d(LOG_TAG, "*** fragmentContainer not found");
         }
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -126,19 +136,23 @@ public class MainActivity extends AppCompatActivity
                 String fbUser = getString(R.string.new_user);
                 String fbEmail = "";
                 Uri fbUserPhoto = null;
-                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+
+                firebaseUser = mFirebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
                     //User logged in
-                    Log.d(LOG_TAG, "RK Firebase User: " + mFirebaseAuth.getCurrentUser().toString());
-                    Log.d(LOG_TAG, "RK firebase User id " + firebaseUser.getUid().toString());
-
+                    //Log.d(LOG_TAG, "*** Firebase User: " + mFirebaseAuth.getCurrentUser().toString());
+                    //Log.d(LOG_TAG, "*** Firebase User id " + firebaseUser.getUid().toString());
                     Toast.makeText(getApplicationContext(), getString(R.string.welcome_toast), Toast.LENGTH_SHORT).show();
+
+                    Global.getCurrentUserID = firebaseUser.getUid().toString();
                     //Update drawer header with signed in user
                     if (firebaseUser.getDisplayName() != null) {
                         fbUser = firebaseUser.getDisplayName().toString();
+                        Global.currentUser = fbUser;
                     }
                     if (firebaseUser.getEmail() != null) {
                         fbEmail = firebaseUser.getEmail().toString();
+                        Global.currentUserEmail = fbEmail;
                     }
                     if (firebaseUser.getPhotoUrl() != null) {
                         fbUserPhoto = firebaseUser.getPhotoUrl();
@@ -166,12 +180,16 @@ public class MainActivity extends AppCompatActivity
         recipe_search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query.length() > 1) {
-                    Intent intent = new Intent(MainActivity.this, RecipesListActivity.class);
-                    intent.putExtra(RECIPE_TO_SEARCH, query);
-                    startActivity(intent);
+                if (Utility.isNetworkConnected(getApplicationContext())) {
+                    if (query.length() > 1) {
+                        Intent intent = new Intent(MainActivity.this, RecipesListActivity.class);
+                        intent.putExtra(RECIPE_TO_SEARCH, query);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.enter_search_query), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Input search query", Toast.LENGTH_SHORT).show();
+                    Utility.showNoInternetToast(getApplicationContext());
                 }
                 return false;
             }
@@ -187,7 +205,7 @@ public class MainActivity extends AppCompatActivity
             String searchString = "";
             if (getIntent().getExtras().get("search") != null) {
                 searchString = getIntent().getExtras().get("search").toString();
-                Log.d(LOG_TAG, "RK searchString: " + searchString);
+                //Log.d(LOG_TAG, "*** notification searchString: " + searchString);
 
                 Intent intent = new Intent(MainActivity.this, RecipesListActivity.class);
                 intent.putExtra(RECIPE_TO_SEARCH, searchString);
@@ -201,16 +219,19 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            Log.d(LOG_TAG, "RK requestCode RC_SIGN_IN");
+            //Log.d(LOG_TAG, "*** requestCode RC_SIGN_IN");
             if (resultCode == RESULT_OK) {
-                Log.d(LOG_TAG, "RK resultCode RESULT_OK sign in");
+                //Log.d(LOG_TAG, "*** resultCode RESULT_OK sign in");
             } else if (resultCode == RESULT_CANCELED) {
-                Log.d(LOG_TAG, "RK resultCode RESULT_CANCELED sign in");
-                Toast.makeText(this, "Sign In Canceled!", Toast.LENGTH_SHORT).show();
+                //Log.d(LOG_TAG, "*** resultCode RESULT_CANCELED sign in");
+                Toast.makeText(this, getResources().getString(R.string.sign_in_canceled_message), Toast.LENGTH_SHORT).show();
                 finish();
             } else if (resultCode == ResultCodes.RESULT_NO_NETWORK) {
-                //TODO: show toast
-                return;
+                //Log.d(LOG_TAG, "*** resultCode RESULT_NO_NETWORK sign in");
+                Utility.showNoInternetToast(this);
+            } else {
+                //Log.d(LOG_TAG, "*** resultCode error sign in");
+                Utility.showToast(this, getResources().getString(R.string.login_error_message)); //login error
             }
         }
     }
@@ -240,9 +261,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -257,29 +278,65 @@ public class MainActivity extends AppCompatActivity
             if (fragmentContainer != null)
                 getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), homeFragment).commit();
         } else if (id == R.id.nav_snap_n_cook) {
-            Intent snap_n_cook = new Intent(this, SnapNCookActivity.class);
-            startActivity(snap_n_cook);
-        } else if (id == R.id.nav_favorites) {
+            if (Utility.isNetworkConnected(this)) {
+                Intent snap_n_cook = new Intent(this, SnapNCookActivity.class);
+                startActivity(snap_n_cook);
+            } else {
+                Utility.showNoInternetToast(this);
+            }
 
+        } else if (id == R.id.nav_favorites) {
+            Intent favorite_recipes = new Intent(this, FavoriteRecipesActivity.class);
+            startActivity(favorite_recipes);
         } else if (id == R.id.nav_logout) {
             //User sign out
-            AlertDialog.Builder logoutDialog = new AlertDialog.Builder(this);
-            logoutDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    signout();
-                }
-            })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            if (Utility.isNetworkConnected(this)) {
+                if (mFirebaseAuth.getCurrentUser() == null) {
+                    //Utility.showToast(this, getResources().getString(R.string.no_user_logged_in_message));
+                    AlertDialog.Builder loginDialog = new AlertDialog.Builder(this);
+                    loginDialog.setPositiveButton(getResources().getString(R.string.login_button_text),
+                            new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //User not logged in - go to login screen
+                                    startActivityForResult(
+                                            AuthUI.getInstance()
+                                                    .createSignInIntentBuilder()
+                                                    //.setLogo(R.drawable.chef128)
+                                                    .setIsSmartLockEnabled(false)
+                                                    .setTheme(R.style.LoginTheme)
+                                                    .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                                            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                                                    .build(),
+                                            RC_SIGN_IN);
+                                }
+                            }).create();
+                    loginDialog.setCancelable(false);
+                    loginDialog.setTitle(getResources().getString(R.string.no_user_logged_in_message));
+                    loginDialog.show();
+                } else {
+                    AlertDialog.Builder logoutDialog = new AlertDialog.Builder(this);
+                    logoutDialog.setPositiveButton(getResources().getString(R.string.ok_button_text), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
+                            signout();
                         }
-                    }).create();
-            logoutDialog.setTitle("Are you sure you want to logout?");
-            logoutDialog.show();
-        } else if (id == R.id.nav_settings) {
-
+                    })
+                            .setNegativeButton(getResources().getString(R.string.cancel_button_text), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //Do nothing - auto dismiss
+                                }
+                            }).create();
+                    logoutDialog.setTitle(getResources().getString(R.string.logout_confirmation_msg));
+                    logoutDialog.show();
+                }
+            } else {
+                Utility.showNoInternetToast(this);
+            }
+//        } else if (id == R.id.nav_settings) {
+            //settings
         } else if (id == R.id.nav_about_us) {
             Intent aboutUsIntent = new Intent(this, AboutUsActivity.class);
             startActivity(aboutUsIntent);
@@ -293,18 +350,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+        if (Utility.isNetworkConnected(this)) {
+            mFirebaseAuth.addAuthStateListener(mAuthStateListener);
 
-        //Get device tocken
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(LOG_TAG, "RK device tocken: " + refreshedToken);
+            //Get device token
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            //Log.d(LOG_TAG, "*** firebase device token: " + refreshedToken);
+        } else {
+            Utility.showNoInternetToast(this);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mAuthStateListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        if (Utility.isNetworkConnected(this)) {
+            if (mAuthStateListener != null) {
+                mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+            }
         }
     }
 
@@ -313,14 +376,16 @@ public class MainActivity extends AppCompatActivity
         mUsername = username;
         mEmail = useremail;
 
-        Log.d(LOG_TAG, "RK onSignedInInitialize() mUsername " + mUsername + " mEmail " + mEmail + " mURL " + mPhotoUrl);
+        //Log.d(LOG_TAG, "*** firebase onSignedInInitialize() mUsername " + mUsername + " mEmail " + mEmail + " mURL " + mPhotoUrl);
 
         //Update navigation drawer header
         if (mPhotoUrl != null) {
             Picasso.with(getApplicationContext())
                     .load(mPhotoUrl)
-                    .resize(170, 170)
+                    .resize(IMAGE_WIDTH, IMAGE_HEIGHT)
                     .centerCrop()
+                    .placeholder(getResources().getDrawable(R.drawable.chef3))
+                    .error(getResources().getDrawable(R.drawable.chef3))
                     .into(user_account_photo);
         }
         user_account_name.setText(mUsername);

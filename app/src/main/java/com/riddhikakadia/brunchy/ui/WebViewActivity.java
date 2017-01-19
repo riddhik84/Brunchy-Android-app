@@ -8,10 +8,11 @@ import android.webkit.WebView;
 
 import com.riddhikakadia.brunchy.R;
 
+import static com.riddhikakadia.brunchy.util.Constants.WEBVIEW_LINK;
+
 public class WebViewActivity extends AppCompatActivity {
 
     WebView recipe_webview;
-    final String WEBVIEW_LINK = "WEBVIEW_LINK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            String weblink = getIntent().getStringExtra(WEBVIEW_LINK).toString();
+            String weblink = getIntent().getStringExtra(WEBVIEW_LINK);
             recipe_webview.loadUrl(weblink);
         }
     }

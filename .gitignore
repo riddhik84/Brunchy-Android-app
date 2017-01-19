@@ -9,4 +9,4 @@
 .externalNativeBuild
 /app/google-services.json
 /gradle.properties
-/keystore.jks
+/app/keystore

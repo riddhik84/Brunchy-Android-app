@@ -15,12 +15,14 @@ import android.widget.ListView;
 import com.riddhikakadia.brunchy.adapter.HomeListAdapter;
 import com.riddhikakadia.brunchy.R;
 import com.riddhikakadia.brunchy.ui.RecipesListActivity;
-import com.riddhikakadia.brunchy.util.RecipesInfo;
+import com.riddhikakadia.brunchy.util.Constants;
+import com.riddhikakadia.brunchy.util.Utility;
+
+import static com.riddhikakadia.brunchy.util.Constants.RECIPE_TO_SEARCH;
 
 public class HomeFragment extends Fragment {
 
     final String LOG_TAG = HomeFragment.class.getSimpleName();
-    final String RECIPE_TO_SEARCH = "RECIPE_TO_SEARCH";
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,16 +49,21 @@ public class HomeFragment extends Fragment {
         homeListView = (ListView) rootView.findViewById(R.id.home_list_view);
         homeListView.setDivider(null);
         homeListView.setDividerHeight(0);
-        homeListAdapter = new HomeListAdapter(getActivity(), RecipesInfo.homeRecipeLabels, RecipesInfo.homeRecipeImages);
+        homeListAdapter = new HomeListAdapter(getActivity(), Constants.homeRecipeLabels, Constants.homeRecipeImages);
         homeListView.setAdapter(homeListAdapter);
 
         homeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(getContext(), RecipesListActivity.class);
-                Log.d(LOG_TAG, RECIPE_TO_SEARCH + " " + RecipesInfo.homeRecipeLabels[position]);
-                intent.putExtra(RECIPE_TO_SEARCH, RecipesInfo.homeRecipeLabels[position]);
-                startActivity(intent);
+                if (Utility.isNetworkConnected(getActivity())) {
+                    //Connected
+                    Intent intent = new Intent(getContext(), RecipesListActivity.class);
+                    //Log.d(LOG_TAG, "*** RECIPE_TO_SEARCH " + Constants.homeRecipeLabels[position]);
+                    intent.putExtra(RECIPE_TO_SEARCH, Constants.homeRecipeLabels[position]);
+                    startActivity(intent);
+                } else {
+                    Utility.showNoInternetToast(getActivity());
+                }
             }
         });
 
@@ -97,7 +104,6 @@ public class HomeFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

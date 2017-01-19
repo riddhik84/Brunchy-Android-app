@@ -3,6 +3,9 @@ package com.riddhikakadia.brunchy.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
+
+import com.riddhikakadia.brunchy.R;
 
 /**
  * Created by RKs on 12/25/2016.
@@ -21,5 +24,13 @@ public class Utility {
                 activeNetwork.isConnectedOrConnecting();
 
         return isConnected;
+    }
+
+    public static void showNoInternetToast(Context context) {
+        Toast.makeText(context, context.getResources().getString(R.string.connect_to_internet), Toast.LENGTH_LONG).show();
+    }
+
+    public static void showToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

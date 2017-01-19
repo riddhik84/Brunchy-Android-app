@@ -11,7 +11,8 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_weight="1"
-        android:contentDescription="reminder"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/calendar_reminder_content_description"
         android:src="@drawable/reminder_icon" />
 
     <ImageButton
@@ -21,6 +22,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_weight="1"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/action_share"
         android:src="@drawable/share_icon" />
 

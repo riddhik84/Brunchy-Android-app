@@ -23,22 +23,68 @@
     <string name="diet">Diet</string>
     <string name="title_activity_categories">CategoriesActivity</string>
     <string name="title_activity_recipes_list">RecipesListActivity</string>
-    <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="title_activity_about_us">About Us</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- snap n cook -->
     <string name="snap_n_cook_message">Select a picture</string>
     <string name="get_recipe">Search Recipe</string>
-    <string name="choose_ingredient">Choose Ingredient</string>
+    <string name="choose_ingredient">Choose Ingredients</string>
 
     <string name="action_share">Share</string>
     <string name="action_favorite">Favorite</string>
 
-
     <string name="veg_switch">VEG</string>
 
+    <string name="provider_authority">com.riddhikakadia.brunchy</string>
+    <string name="added_to_fav_toast">ADDED TO FAVORITES</string>
+    <string name="removed_from_fav_toast">REMOVED FROM FAVORITES</string>
+
+    <string name="enter_search_query">Enter recipe to search</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_favorite_recipes">FavoriteRecipesActivity</string>
+    <string name="connect_to_internet">Connect to internet…</string>
+    <string name="ok_button_text">OK</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="logout_confirmation_msg">Are you sure you want to logout?</string>
+    <string name="login_error_message">Login Error!</string>
+    <string name="sign_in_canceled_message">Sign In Canceled!</string>
+    <string name="action_up">up</string>
+    <string name="get_recipe_directions">Get Directions</string>
+    <string name="calendar_reminder_content_description">add calendar reminder</string>
+
+    <string name="no_user_logged_in_message">No user logged in. Please login.</string>
+    <string name="login_button_text">Login</string>
+    <string name="connect_button">Connect</string>
+
+    <string name="no_recipes_found">No recipes found!</string>
+    <string name="calories_per_serving_text">"Calories per serving</string>
+    <string name="total_ingredients_text">Total ingredients</string>
+
+    <string name="ingredient_text_header">INGREDIENTS:</string>
+    <string name="nutrition_info_header">NUTRITION INFO PER SERVING:</string>
+    <string name="health_labels_header">DIET:</string>
+
+    <string name="share_url_text">Check out this recipe</string>
+    <string name="share_recipe_header">Share recipe</string>
+    <string name="calendar_event_title">Cooking recipe:</string>
+
+    <string name="user_photo_content_description">user account photo</string>
+    <string name="snap_n_cook_image_content_description">snap n cook food photo</string>
+
+    <string name="no_favorite_recipes_message">"No favorite recipes!"</string>
+
+    <string name="favorite_recipes_header">Favorite Recipes</string>
+    <string name="snal_n_cook_header">Snap N Cook</string>
+    <string name="fat_label">Fat</string>
+    <string name="total_serving">Total serving</string>
+
+    <string name="snap_n_cook_fab_button_content_desc">snap n cook fab button</string>
+    <string name="gallery_fab_button_content_desc">gallery fab button</string>
+    <string name="camera_fab_button_content_desc">camera fab button</string>
+    <string name="developer_name">Developed By \n Riddhi Kakadia</string>
+    <string name="search_box_hint">Search recipes…</string>
 
     <!-- Strings related to Settings -->
 

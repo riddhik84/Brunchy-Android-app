@@ -52,4 +52,7 @@
     <dimen name="detail_card_layout_margin_left">48dp</dimen>
     <dimen name="detail_card_layout_margin_right">48dp</dimen>
 
+    <dimen name="snap_n_cook_list_view_height">400dp</dimen>
+    <dimen name="collapsed_title_text_margin_left">24dp</dimen>
+
 </resources>

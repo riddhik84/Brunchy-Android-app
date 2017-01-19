@@ -8,19 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import com.riddhikakadia.brunchy.R;
 import com.riddhikakadia.brunchy.ui.RecipeDetailActivity;
-import com.riddhikakadia.brunchy.ui.RecipesListActivity;
+import com.riddhikakadia.brunchy.util.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static com.riddhikakadia.brunchy.util.Constants.RECIPE_ID;
+import static com.riddhikakadia.brunchy.util.Constants.RECIPE_LIST_POSITION;
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    final String LOG_TAG = RecyclerAdapter.class.getSimpleName();
-    final String RECIPE_ID = "RECIPE_ID";
+    private final String LOG_TAG = RecyclerAdapter.class.getSimpleName();
+
+    private final int IMAGE_WIDTH = 500;
 
     int lastPosition = -1;
 
@@ -31,14 +34,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
     List<String> recipe_URIs;
 
     public RecyclerAdapter(List<String> recipeNames, List<String> recipeImageURLs, List<String> recipeURIs) {
-        Log.d(LOG_TAG, "RecyclerAdapter() ");
+        //Log.d(LOG_TAG, "RecyclerAdapter() ");
 
         //this.context = context;
         recipe_names = recipeNames;
         recipe_image_URLs = recipeImageURLs;
         recipe_URIs = recipeURIs;
         //inflater = LayoutInflater.from(context);
-        Log.d(LOG_TAG, "RK recipe_names.size() " + recipe_names.size());
+        //Log.d(LOG_TAG, "*** recipe_names.size() " + recipe_names.size());
     }
 
     @Override
@@ -52,8 +55,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        Log.d(LOG_TAG, "Recipe Name: " + recipe_names.get(position) + " Recipe Image URLs : " + recipe_image_URLs.get(position)
-                + " Recipe ID: " + recipe_URIs.get(position));
+        //Log.d(LOG_TAG, "Recipe Name: " + recipe_names.get(position) + " Recipe Image URLs : " + recipe_image_URLs.get(position)
+        //        + " Recipe ID: " + recipe_URIs.get(position));
 
         int imageHeight = 0;
         if (position % 3 == 0) {
@@ -66,11 +69,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         Picasso.with(inflater.getContext())
                 .load(recipe_image_URLs.get(position))
                 .noFade()
-                .resize(500, imageHeight)
+                .resize(IMAGE_WIDTH, imageHeight)
                 .placeholder(R.drawable.placeholder_food)
                 .centerCrop()
                 //.fit()
                 .into(holder.recipe_photo);
+        holder.recipe_photo.setContentDescription(recipe_names.get(position));
 
         holder.recipe_photo.setOnClickListener(clickListener);
         holder.recipe_photo.setTag(holder);
@@ -89,12 +93,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         public void onClick(View v) {
             RecyclerViewHolder vh = (RecyclerViewHolder) v.getTag();
             int position = vh.getPosition();
+            //Toast.makeText(inflater.getContext(), "This is position " + position, Toast.LENGTH_LONG).show();
 
-            Toast.makeText(inflater.getContext(), "This is position " + position, Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(inflater.getContext(), RecipeDetailActivity.class);
-            intent.putExtra(RECIPE_ID, recipe_URIs.get(position));
-            Log.d(LOG_TAG, "RK*** Recipe uri: " + recipe_URIs.get(position));
-            inflater.getContext().startActivity(intent);
+            if (Utility.isNetworkConnected(inflater.getContext())) {
+                Intent intent = new Intent(inflater.getContext(), RecipeDetailActivity.class);
+                intent.putExtra(RECIPE_ID, recipe_URIs.get(position));
+                intent.putExtra(RECIPE_LIST_POSITION, position);
+                //Log.d(LOG_TAG, "RK*** Recipe uri: " + recipe_URIs.get(position));
+                inflater.getContext().startActivity(intent);
+            } else {
+                Utility.showNoInternetToast(inflater.getContext());
+            }
         }
     };
 

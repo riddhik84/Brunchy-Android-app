@@ -1,12 +1,10 @@
 package com.riddhikakadia.brunchy.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.riddhikakadia.brunchy.R;
 
@@ -18,7 +16,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     ImageView recipe_photo;
     TextView recipe_name;
     CardView cardview;
-
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
