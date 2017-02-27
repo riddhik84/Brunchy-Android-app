@@ -159,10 +159,18 @@ public class SnapNCookActivity extends AppCompatActivity {
 
                         @Override
                         protected RecognitionResult doInBackground(Bitmap... bitmaps) {
+                            RecognitionResult result = null;
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             bitmaps[0].compress(Bitmap.CompressFormat.JPEG, 90, stream);
                             byte[] byteArray = stream.toByteArray();
-                            return clarifaiClient.recognize(new RecognitionRequest(byteArray).setModel("food-items-v0.1")).get(0);
+                            try {
+                                result = clarifaiClient.recognize(new RecognitionRequest(byteArray)
+                                        .setModel("food-items-v0.1"))
+                                        .get(0);
+                            } catch (com.clarifai.api.exception.ClarifaiNotAuthorizedException ena) {
+                                ena.printStackTrace();
+                            }
+                            return result;
                         }
 
                         @Override

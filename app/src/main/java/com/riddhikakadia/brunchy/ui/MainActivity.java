@@ -28,9 +28,15 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ui.ResultCodes;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.riddhikakadia.brunchy.BuildConfig;
 import com.riddhikakadia.brunchy.R;
 import com.riddhikakadia.brunchy.fragments.HomeFragment;
 import com.riddhikakadia.brunchy.util.Global;
@@ -73,6 +79,8 @@ public class MainActivity extends AppCompatActivity
     String mEmail;
     Uri mPhotoUrl;
 
+    InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,19 +94,41 @@ public class MainActivity extends AppCompatActivity
 
         sharedPreferences = getSharedPreferences(RECIPE_SETTINGS, Context.MODE_PRIVATE);
 
+        //Interstitial ad
+        mInterstitialAd = new InterstitialAd(getApplicationContext());
+        mInterstitialAd.setAdUnitId(BuildConfig.ADMOB_INTERSTITIAL_AD_UNIT_ID);
+        requestNewInterstitial();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         //fab.setContentDescription(getString(R.string.snap_n_cook_fab_button_content_desc));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Utility.isNetworkConnected(getApplicationContext())) {
-                    Intent snap_n_cook = new Intent(getApplicationContext(), SnapNCookActivity.class);
-                    startActivity(snap_n_cook);
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+
+                        mInterstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdClosed() {
+                                requestNewInterstitial();
+                                Intent snap_n_cook = new Intent(getApplicationContext(), SnapNCookActivity.class);
+                                startActivity(snap_n_cook);
+                            }
+                        });
+                        requestNewInterstitial();
+
+                    } else {
+                        Intent snap_n_cook = new Intent(getApplicationContext(), SnapNCookActivity.class);
+                        startActivity(snap_n_cook);
+                    }
                 } else {
                     Utility.showNoInternetToast(getApplicationContext());
                 }
             }
         });
+
+        MobileAds.initialize(getApplicationContext(), BuildConfig.ADMOB_AD_BANER_APP_ID);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -213,6 +243,11 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         }
+
+        //Show admob baner ad
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
 
@@ -415,5 +450,13 @@ public class MainActivity extends AppCompatActivity
         //Log.d(LOG_TAG, "*** updateWidget()");
         Intent intent = new Intent(ACTION_DATA_UPDATED).setPackage(this.getPackageName());
         sendBroadcast(intent);
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 }

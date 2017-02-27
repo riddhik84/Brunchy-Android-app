@@ -88,6 +88,10 @@
 
     <string name="app_not_logged_in_message">App not logged in!</string>
     <string name="select_fav_again_text">Select favorite again!</string>
+
+    <!-- admob ad info -->
+    <string name="banner_ad_unit_id">ca-app-pub-2571064009549610/2449254085</string>
+
     <!-- Strings related to Settings -->
 
 
