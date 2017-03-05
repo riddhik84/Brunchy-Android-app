@@ -84,6 +84,11 @@
     <string name="gallery_fab_button_content_desc">gallery fab button</string>
     <string name="camera_fab_button_content_desc">camera fab button</string>
     <string name="developer_name">Developed By \n Riddhi Kakadia</string>
+    <string name="logo_credit_text">Icon made by Freepik \n http://www.freepik.com \n from \n www.flaticon.com</string>
+    <string name="nutrition_info_credit_text">Recipe nutrition info by edamam \n http://developer.edamam.com</string>
+    <string name="snap_n_cook_info_credit_text">Food image recognizion model by \n Clarifai \n https://developer.clarifai.com</string>
+    <string name="credits_button_text">credits</string>
+    <string name="app_version_text">Version:</string>
     <string name="search_box_hint">Search recipes…</string>
 
     <string name="app_not_logged_in_message">App not logged in!</string>

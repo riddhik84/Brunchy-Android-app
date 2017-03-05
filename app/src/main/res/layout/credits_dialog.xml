@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/logo_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:autoLink="web"
+        android:gravity="center"
+        android:text="@string/logo_credit_text"
+        android:textColor="@color/colorAccent"
+        android:textSize="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBrown_300" />
+
+    <TextView
+        android:id="@+id/nutrition_info_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:autoLink="web"
+        android:gravity="center"
+        android:text="@string/nutrition_info_credit_text"
+        android:textColor="@color/colorAccent"
+        android:textSize="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBrown_300" />
+
+    <TextView
+        android:id="@+id/snap_n_cook_info_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:autoLink="web"
+        android:gravity="center"
+        android:text="@string/snap_n_cook_info_credit_text"
+        android:textColor="@color/colorAccent"
+        android:textSize="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBrown_300" />
+
+    <Button
+        android:id="@+id/dialog_ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/ok_button_text" />
+
+</LinearLayout>

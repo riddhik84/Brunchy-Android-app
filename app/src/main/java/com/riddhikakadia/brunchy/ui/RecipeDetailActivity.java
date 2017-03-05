@@ -11,14 +11,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,7 +30,6 @@ import android.widget.Toast;
 
 import com.riddhikakadia.brunchy.API.RecipeDetailAPI;
 import com.riddhikakadia.brunchy.R;
-import com.riddhikakadia.brunchy.data.RecipesDBHelper;
 import com.riddhikakadia.brunchy.model.CA;
 import com.riddhikakadia.brunchy.model.CHOCDF;
 import com.riddhikakadia.brunchy.model.CHOLE;
@@ -69,7 +66,6 @@ import static com.riddhikakadia.brunchy.data.RecipesContract.FavoriteRecipes;
 import static com.riddhikakadia.brunchy.util.Constants.ACTION_DATA_UPDATED;
 import static com.riddhikakadia.brunchy.util.Constants.BASE_URL;
 import static com.riddhikakadia.brunchy.util.Constants.RECIPE_ID;
-import static com.riddhikakadia.brunchy.util.Constants.RECIPE_LIST_POSITION;
 import static com.riddhikakadia.brunchy.util.Constants.WEBVIEW_LINK;
 
 public class RecipeDetailActivity extends AppCompatActivity {
@@ -477,7 +473,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                                 String procnt_unit = procnt.getUnit();
                                 String procnt_info = (procnt_quantity / yield) + " " + procnt_unit;
                                 nutritionInfoArray.add(procnt_info);
-                                Log.d(LOG_TAG, "*** procnt_info: " + procnt_info);
+                                //Log.d(LOG_TAG, "*** procnt_info: " + procnt_info);
                             }
 
                             if (totalNutrients.getCHOLE() != null) {
@@ -499,7 +495,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                                 String na_unit = na.getUnit();
                                 String na_info = (na_quantity / yield) + " " + na_unit;
                                 nutritionInfoArray.add(na_info);
-                                Log.d(LOG_TAG, "*** na_info: " + na_info);
+                                //Log.d(LOG_TAG, "*** na_info: " + na_info);
                             }
 
                             if (totalNutrients.getCA() != null) {

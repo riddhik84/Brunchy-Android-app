@@ -316,8 +316,22 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(fragmentContainer.getId(), homeFragment).commit();
         } else if (id == R.id.nav_snap_n_cook) {
             if (Utility.isNetworkConnected(this)) {
-                Intent snap_n_cook = new Intent(this, SnapNCookActivity.class);
-                startActivity(snap_n_cook);
+
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+
+                    mInterstitialAd.setAdListener(new AdListener() {
+                        @Override
+                        public void onAdClosed() {
+                            requestNewInterstitial();
+                            Intent snap_n_cook = new Intent(getApplicationContext(), SnapNCookActivity.class);
+                            startActivity(snap_n_cook);
+                        }
+                    });
+                } else {
+                    Intent snap_n_cook = new Intent(getApplicationContext(), SnapNCookActivity.class);
+                    startActivity(snap_n_cook);
+                }
             } else {
                 Utility.showNoInternetToast(this);
             }

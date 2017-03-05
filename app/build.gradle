@@ -55,7 +55,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //multidex support library
-    compile 'com.android.support:multidex:1.0.1'
+    
 
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
@@ -64,6 +64,8 @@ dependencies {
     compile('com.google.apis:google-api-services-calendar:v3-rev200-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
@@ -83,7 +85,7 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.google.firebase:firebase-ads:10.0.1'
-    
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
