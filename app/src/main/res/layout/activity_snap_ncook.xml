@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorGrey_300"
     android:fillViewport="true"
-    tools:context="com.riddhikakadia.brunchy.ui.SnapNCookActivity">
+    tools:context=".ui.SnapNCookActivity">
 
     <include
         android:id="@+id/snap_n_cook_toolbar"
